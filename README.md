@@ -134,3 +134,25 @@ movies.loc["Forrest Gump"]  # По метке индекса
 movies.sort_values(by=["Studio","Year"]).head()
 movies.sort_index().head()
 ```
+
+Часто нам приходится выполнять некоторые действия по одной колонке. Данные из одной колонки называются Series. Получить объект типа Series можно из DataFrame: `movies["Studio"]`. Например, мы можем выбрать колонку и подсчитать количество уникальных значений в ячейках этой серии:
+
+```py
+movies["Studio"].value_counts().head(10)
+```
+
+Чтобы отобрать из DataFrame данные по конкретной колонке, можно использовать конструкцию:
+
+```py
+release_by_universal = (movies["Studio"] == "Universal")
+movies[release_by_universal].head()
+```
+
+Можно использовать несколько условий:
+
+```py
+released_in_2015 = (movies["Year"] == 2015)
+movies[release_by_universal & released_in_2015]
+```
+
+Мы можем использовать разные логические операторы, в том числе `&` и `|`

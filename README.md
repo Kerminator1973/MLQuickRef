@@ -161,10 +161,47 @@ movies[release_by_universal & released_in_2015]
 
 ```py
 before_1975 = movies["Year"] < 1975
+movies[before_1975]
 ```
 
 Или:
 
 ```py
 mid_8os = movies["Year"].between(1983, 1986)
+movies[mid_8os]
+```
+
+Для фильтрации данных можно использовать и текстовые индексы:
+
+```py
+has_dark_in_title = movies.index.str.lower().str.contains("dark")
+movies[has_dark_in_title]
+```
+
+>Важно понимать, что когда мы вызываем функции фильтрации, они просто формируют выборку, которую затем можно использовать в качестве индексатора `[]` DataFrame для получения некоторого подмножества DataFrame.
+
+## Группировка данных. Агрегация
+
+Для выполнения группировки может потребоваться выполнять чистку данных, например:
+
+```py
+movies["Gross"].str.replace("$", "", regedx = False).str.replace(",", "", regex = False)
+```
+
+Преобразовать тип из строчного, например, к вещественному можно используя метод **astype**():
+
+```py
+movies["Gross"].str.replace("$", "", regedx = False).str.replace(",", "", regex = False).astype(float)
+```
+
+Зафиксировать преобразование в DataFrame можно используя круглые скобки `(выборка)`:
+
+```py
+movies["Gross"] = (movies["Gross"].str.replace("$", "", regedx = False).str.replace(",", "", regex = False).astype(float))
+```
+
+К выполненному преобразованию можно применять различные операции, такие как **mean**():
+
+```py
+movies["Gross"].mean()
 ```

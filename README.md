@@ -205,3 +205,27 @@ movies["Gross"] = (movies["Gross"].str.replace("$", "", regedx = False).str.repl
 ```py
 movies["Gross"].mean()
 ```
+
+Группировка выполняется созданием нового объекта:
+
+```py
+studios = movies.groupby("Studio")
+```
+
+Затем уже к сгруппированным данным можно применять различные операции, например - посчитать количество элементов по каждой группе:
+
+```py
+studio["Gross"].count().head()
+```
+
+Подсчитанные результаты можно отсортировать:
+
+```py
+studio["Gross"].count().sort_values(ascending = False).head()
+```
+
+Или можно поситать сумму, используя функцию **sum**():
+
+```py
+studio["Gross"].sum().sort_values(ascending = False).head()
+```

@@ -229,3 +229,19 @@ studio["Gross"].count().sort_values(ascending = False).head()
 ```py
 studio["Gross"].sum().sort_values(ascending = False).head()
 ```
+
+## Series
+
+Создать пустую серию можно с помощью конструктора без параметров: `pd.Series()`. Создать 
+
+```py
+ice_cream_flavors = [
+    "Chocolate",
+    "Vanilla",
+    "Strawberry",
+    "Rum Raisin"
+]
+pd.Series(ice_cream_flavors)
+```
+
+В качестве входных значений конструктора могут использоваться: списки, ассоциативные массивы, кортежи, NumPy-объекты ndarray, и т.д.

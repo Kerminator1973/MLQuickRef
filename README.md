@@ -232,7 +232,7 @@ studio["Gross"].sum().sort_values(ascending = False).head()
 
 ## Series
 
-Создать пустую серию можно с помощью конструктора без параметров: `pd.Series()`. Создать 
+Создать пустую серию можно с помощью конструктора без параметров: `pd.Series()`. Создать серию с данными можно так:
 
 ```py
 ice_cream_flavors = [
@@ -245,3 +245,20 @@ pd.Series(ice_cream_flavors)
 ```
 
 В качестве входных значений конструктора могут использоваться: списки, ассоциативные массивы, кортежи, NumPy-объекты ndarray, и т.д.
+
+Серия состоит из индекса и данных. Индекс начинается с нуля и по умолчанию индекс - это просто числа. Но мы можем задать для каждого индекса символическое имя, например:
+
+```py
+ice_cream_flavors = [
+    "Chocolate",
+    "Vanilla",
+    "Strawberry",
+    "Rum Raisin"
+]
+
+days_of_week = ("Monday", "Wednesday", "Friday", "Saturday")
+
+pd.Series(data = ice_cream_flavors, index = days_of_week)
+```
+
+Pandas сам определяет тип данных. Типы `int64` и `float64` занимают в памяти 8 байт.

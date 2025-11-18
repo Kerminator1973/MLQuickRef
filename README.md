@@ -261,4 +261,42 @@ days_of_week = ("Monday", "Wednesday", "Friday", "Saturday")
 pd.Series(data = ice_cream_flavors, index = days_of_week)
 ```
 
-Pandas сам определяет тип данных. Типы `int64` и `float64` занимают в памяти 8 байт.
+>Типы `int64` и `float64` занимают в памяти 8 байт. 
+
+Pandas сам определяет тип данных. Однако мы может задать тип явным образом, например:
+
+```py
+lucky_numbers = [4, 8, 15, 16, 23, 42]
+pd.Series(lucky_numbers, dtype = "float")
+```
+
+### NaN
+
+nan = not a number, условный объект, обзначающий пустое или отсутствующее значение. Определён в NumPy и часто выглядит как `np.nan`:
+
+```py
+temperatures = [94, 88, np.nan, 91]
+pd.Series(data = temperatures)
+```
+
+## Создание объектов Series из объектов Python
+
+Пример:
+
+```py
+calorie_info = {
+    "Cereal": 125,
+    "Chocolate Bar": 406,
+    "Ice Cream Sundae": 342
+}
+diet = pd.Series(calorie_info)
+```
+
+Создавать серии можно из из кортежей:
+
+```py
+pd.Series(data = ("Red", "Green", "Blue"))
+
+rgb_colors = [(120, 41, 26), (196, 165, 45)]
+pd.Series(data = rgb_colors)
+```

@@ -77,7 +77,7 @@ else:
 X = df['text_clean']
 y = df['label_num']
 
-# Выполняем веекторизацию текстовых данных, используя TF-IDF
+# Выполняем векторизацию текстовых данных, используя TF-IDF
 vectorizer = TfidfVectorizer(ngram_range=(1,2), max_df=0.95, min_df=2)
 X_vec = vectorizer.fit_transform(X)
 
@@ -93,7 +93,7 @@ y_vals = [f(X_train, X_test, y_train, y_test, i) for i in i_vals]
 # Выводим график зависимости точность распознавания от значения max_depth
 plt.figure(figsize=(8, 5))
 plt.plot(i_vals, y_vals, marker='o', linestyle='-')
-plt.title('1‒20')
+plt.title('Зависимость точность классификатора от параметра max_depth')
 plt.xlabel('max_depth')
 plt.ylabel('accuracy')
 plt.grid(True)

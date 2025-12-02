@@ -332,4 +332,19 @@ plt.xlabel('Pixel intensity')
 plt.ylabel('Frequency')
 plt.grid(axis='y', alpha=0.75)
 plt.show()
-``
+```
+
+Можно добавить фильтрацию с использование _percentiles_:
+
+```py
+# ---- Compute the 10 % and 90 % percentiles -------------------------
+p10, p90 = np.percentile(values, [10, 90])
+
+# ---- Keep only values between those percentiles --------------------
+filtered = region[(region >= p10) & (region <= p90)]
+
+# Plot histogram
+plt.figure(figsize=(6, 4))
+plt.hist(values, bins=range(0, 257, 5), edgecolor='red')
+plt.hist(filtered, bins=range(0, 257, 5), edgecolor='black')
+```

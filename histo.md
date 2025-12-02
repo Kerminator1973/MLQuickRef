@@ -279,3 +279,57 @@ print(df['pixel_intensity'].describe())
 print("\nПОСЛЕ фильтрации:")
 print(df_kept['pixel_intensity'].describe())
 ```
+
+## Попытка воспроизвести алгоритм, используемый известным вендором
+
+```py
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from PIL import Image
+
+import matplotlib.patches as patches
+
+# Загрузка файла
+#from google.colab import files
+#uploaded = files.upload()
+
+# Load the BMP as a grayscale (mode 'L')
+img = Image.open('image.bmp').convert('L')
+arr = np.array(img)          # 2‑D NumPy array of pixel values (0‑255)
+
+# Coordinates
+col, row = 112 + 3, 44 + 6
+width, height = 5, 7
+region = arr[row:row+height, col:col+width]
+
+# ---- Plot whole image ---------------------------------------------
+fig, ax = plt.subplots(figsize=(8, 6))
+ax.imshow(arr, cmap='gray', origin='upper')
+ax.set_title('Grayscale BMP with selected 5×7 area')
+
+# ---- Draw rectangle around the region -----------------------------
+rect = patches.Rectangle(
+    (col, row),               # (x, y) of the top‑left corner
+    width, height,           # width, height in pixels
+    linewidth=1,
+    edgecolor='red',
+    facecolor='none'         # transparent fill
+)
+ax.add_patch(rect)
+
+plt.axis('off')   # hide axis ticks
+plt.show()
+
+# Flatten to 1‑D for the histogram
+values = region.ravel()
+
+# Plot histogram
+plt.figure(figsize=(6, 4))
+plt.hist(values, bins=range(0, 257, 5), edgecolor='black')
+plt.title('Histogram of 5×7 region at (112, 44)')
+plt.xlabel('Pixel intensity')
+plt.ylabel('Frequency')
+plt.grid(axis='y', alpha=0.75)
+plt.show()
+``

@@ -34,7 +34,31 @@ df = pd.read_csv("pokemon.csv", index_col = "Pokemon")
 df = pd.read_csv("pokemon.csv", index_col = "Pokemon", squeeze = True)
 ```
 
-Однако, если потребуется загружать данные из Kaggle на локальную машину, то может потребоваться получить ключ API, загружать и распаковывать архив.
+Если необходимо получить данные типа "дата", то следует явным образом указать имя поля, используя параметр `parse_dates`:
+
+```py
+pd.read_csv(
+    "revolutionary_war.csv",
+    index_col = "Start Date",
+    parse_dates = ["Start Date"]
+)
+```
+
+Список импортируемых столбов можно указать используя параметр usecols:
+
+```py
+pd.read_csv(
+    "revolutionary_war.csv",
+    index_col = "Start Date",
+    parse_dates = ["Start Date"],
+    usecols = ["State", "Start Date"],
+    squeeze = True
+)
+```
+
+### Использование коллекций Kaggle
+
+Если потребуется загружать данные из Kaggle на локальную машину, то может потребоваться получить ключ API, загружать и распаковывать архив.
 
 Загрузить данные в Colab с локального диска можно следующим образом:
 

@@ -13,7 +13,7 @@ import requests # Библиотека для выполнения http-запр
 sites = requests.get('https://misis.ru/applicants/admission/magistracy/faculties/lingmg/digling/').text
 
 # Маска для поиска ссылок с помощью регулярных выражений. Маска ищет подстроку которая:
-# 1. Начиначется с имени аттрибута href HTML-тэга
+# 1. Начинается с имени аттрибута href HTML-тэга
 # 2. Строка внутри href начинается с http://, или c https://
 regex_mask = r'href=["\'](http[s]?://[^"\']+)["\']'
 
@@ -108,3 +108,69 @@ print(word_counts)
 # Выводим контекст для каждого использования слова
 process_text(chapter1, "his", 2, 4, True)
 ```
+
+Подзадание №3: cравните скорость и качество работы re.split и токенизаторов из библиотек **transformers** и **nltk**. Для этого разбейте текст 1-й главы Улисса (предварительно очищенной от тэгов!) на слова с помощью функции re.split и на токены с помощью любого токенизатора. С помощью библиотеки time зафиксируйте время, которое ушло в каждом случае на обработку текста. Подсчитайте количество различных токенов, получившихся в результате обработки текста различными методами. Чем отличаются полученные наборы токенов?
+
+```py
+import requests
+from transformers import BertTokenizer
+import nltk
+import time
+from html.parser import HTMLParser
+
+# Вспомогательный класс и функция для удаления тэгов из строки с HTML
+class TagStripper(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.text_parts = []
+
+    def handle_data(self, data):
+        self.text_parts.append(data)
+
+    def get_text(self) -> str:
+        return ''.join(self.text_parts)
+
+def strip_tags(html: str) -> str:
+    parser = TagStripper()
+    parser.feed(html)
+    return parser.get_text()
+
+# Инициализация библиотеки ntlk посредством добавления правил пунктуации
+nltk.download('punkt')
+
+# Считываем первую главу "Улисс"
+chapter1 = requests.get('https://www.gutenberg.org/files/4300/4300-h/4300-h.htm#chap01').text
+
+clean_chapter1 = strip_tags(chapter1)
+
+# Подготавливаем токенайзер к работе
+
+start = time.perf_counter()   # Используем таймер высокой точности
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+elapsed = time.perf_counter() - start
+
+print(f"Execution time (BertTokenizer.from_pretrained): {elapsed:.6f} seconds")
+
+# Осуществляем токенизация текста (получим список токенов и их соответствие индексам)
+start = time.perf_counter()
+tokens = tokenizer.tokenize(clean_chapter1)
+elapsed = time.perf_counter() - start
+
+print(f"Execution time (tokenize): {elapsed:.6f} seconds")
+
+print(f"Total tags found (tokenizer): {len(tokens)}")
+
+start = time.perf_counter()
+flt_words = clean_chapter1.lower().replace('.', '').replace(',', '').split()
+elapsed = time.perf_counter() - start
+
+print(f"Execution time (re): {elapsed:.6f} seconds")
+
+print(f"Total tags found (tokenizer): {len(flt_words)}")
+
+# Для контроля корректности работы можно сравнить набор токенов
+#print(tokens)
+#print(flt_words)
+```
+
+Не смотря на то, что чистка текста от HTML-токенов была грубой, глубокая оптимизация не осуществлялась, очень хорошо видно, что "медленные" регулярные выражения кратно быстрее, чем профессиональный лингвистический токенайзер.

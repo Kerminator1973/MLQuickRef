@@ -57,43 +57,54 @@ def get_right_context(words, index, right_context_len):
     else:
         return ' '.join(words[index + 1:])
 
-def process_text(text, search_word, left_context_len, right_context_len, cut_length = False):
-
-    # Не удаляем точки, восклицательные и вопросительные знаки, поскольку они позволяют разделить
-    # текст на предложения
-    #words = chapter.lower().replace(',', '').split()
-
-    # Удаляем знаки пунктуации
-    words = chapter.lower().replace('.', '').replace('!', '').replace('?', '').replace(',', '').split()
-
-    # Фильтрация по первому символу "Левая угловая скобка", чтобы исключить HTML-теги
-    filtered_words = [w for w in words if not w.startswith('<')]
-
-    print(filtered_words)
+# Функция создаёт файл для вывода результата поиска контекста
+def process_text(chapter, search_word, left_context_len, right_context_len, cut_length = False):
 
     # Сохраняем в файл результат работы функции
     with open('example.txt', 'w', encoding='utf-8') as file:
 
-        for index, word in enumerate(filtered_words):
-            if word == search_word:
+        if cut_length:
 
-                left_context = get_left_context(filtered_words, index, left_context_len)
-                right_context = get_right_context(filtered_words, index, right_context_len)
+            # Разбиваем текст на предложения и обрабатываем их по отдельности
+            sentences = re.split(r'[.!?]', chapter)
+            for sentence in sentences:
 
-                file.write(f"{left_context} {search_word} {right_context}\n")
+                if search_word in sentence.lower():
+                    specify_context(file, sentence, search_word, left_context_len, right_context_len)
+
+        else:
+            # Если не нужно резать контекст по границе предложения, передаём на обработку весь текст
+            specify_context(file, chapter, search_word, left_context_len, right_context_len)
+
+# Функция для получения контекста слова в
+def specify_context(file, part, search_word, left_context_len, right_context_len):
+
+    # Удаляем знаки пунктуации
+    words = part.lower().replace('.', '').replace('!', '').replace('?', '').replace(',', '').split()
+
+    # Фильтрация по первому символу "Левая угловая скобка", чтобы исключить HTML-теги
+    filtered_words = [w for w in words if not w.startswith('<')]
+
+    for index, word in enumerate(filtered_words):
+        if word == search_word:
+
+            left_context = get_left_context(filtered_words, index, left_context_len)
+            right_context = get_right_context(filtered_words, index, right_context_len)
+
+            file.write(f"{left_context} {search_word} {right_context}\n")
 
 # Загружаем файл с сайта Gutenberg
-chapter = requests.get('https://www.gutenberg.org/files/4300/4300-h/4300-h.htm#chap01').text
+chapter1 = requests.get('https://www.gutenberg.org/files/4300/4300-h/4300-h.htm#chap01').text
 
 # С помощью регулярных выражений находим все слова, исключая знаки пунктуации
-words = chapter.lower().replace('.', '').replace(',', '').split()
+flt_words = chapter1.lower().replace('.', '').replace(',', '').split()
 
 # Подсчитываем частоту использования слов
-word_counts = Counter(words)
+word_counts = Counter(flt_words)
 
 # Выводим на экран количество использованных слов
 print(word_counts)
 
 # Выводим контекст для каждого использования слова
-process_text(chapter, "his", 2, 4)
+process_text(chapter1, "his", 2, 4, True)
 ```

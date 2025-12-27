@@ -15,3 +15,52 @@
 - Модельные (вероятностные). Пример алгоритма: Байесовские смеси (Dirichlet Process Mixture) - могут автоматически подбирать число кластеров (в рамках модели), но сложнее и тяжелее
 - Графовые / спектральные. Пример алгоритма: Spectral clustering - строит граф похожести и кластеризует в спектральном представлении (через собственные векторы лапласиана). Хорош для сложной структуры, но дорог по вычислениям на больших n.
 - Прочие: Mean Shift, Affinity Propagation, BIRCH
+
+## Пример приложения
+
+В приведённом ниже примере из тестовых dataset-ов SKLearn извлекаются сообщения из группы новостей по двум темам:
+
+```py
+# Получаем данные из новостных групп
+from sklearn.datasets import fetch_20newsgroups
+import nltk
+from nltk.corpus import stopwords
+import re
+
+nltk.download("stopwords")
+stop_words = set(stopwords.words("english"))
+
+# Этап получения данных и их предобработки
+def preprocess(text: str) -> str:
+
+    # Разделяем текст на отдельные слова, удаляем символы не являющиеся буквами,
+    # удаляем stop-слова. Собираем отдельные слова в строки с пробелом в
+    # качестве символа-разделителя
+    text = text.lower()
+    text = re.sub(r"[^a-z\s]", " ", text)
+    tokens = text.split()
+    tokens = [t for t in tokens if t not in stop_words]
+    return " ".join(tokens)
+
+# Выбираем два подмножества статей из групп "криптография" и "мотоциклы"
+newsgroups_train = fetch_20newsgroups(
+    subset='train',
+    categories=['rec.motorcycles', 'sci.crypt'],
+    remove=('headers', 'footers', 'quotes')
+)
+
+data = newsgroups_train.data
+preprocessed = [preprocess(t) for t in data]
+```
+
+Список доступных групп в новостях можно посмотреть так:
+
+```py
+# Загрузить только тестовый набор и получить список групп
+test_data = fetch_20newsgroups(subset='test', download_if_missing=True)
+group_names = test_data.target_names
+
+# Распечатываем все доступные нам группы
+print(group_names)
+```
+

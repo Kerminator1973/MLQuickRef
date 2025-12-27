@@ -64,3 +64,59 @@ group_names = test_data.target_names
 print(group_names)
 ```
 
+Кластеризация и вывод результата:
+
+```py
+# Этап кластеризации и вывода результатов
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+import numpy as np
+
+# Функция осуществляет кластеризацию данных. Мы могли бы задать не два, а большее
+# количество кластеров, если бы работали с большим количеством новостных групп
+def clustering(data, vectorizer, n_clusters=2):
+
+    # Преобразуем строку слов в числовой вектор
+    X = vectorizer.fit_transform(data)
+
+    # Выполняем кластеризацию данных с помощью алгоритма KMeans
+    kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
+    labels = kmeans.fit_predict(X)
+
+    # Определяем качество кластеризации, используя подсчёт Silhouette Score
+    score = silhouette_score(X, labels)
+
+    return X, labels, score, kmeans
+
+# Вспомогательный метод для печати наиболее часто встречаемых слов в кластере
+def print_top_words(vectorizer, model, n_words=10):
+
+    feature_names = np.array(vectorizer.get_feature_names_out())
+    for i, center in enumerate(model.cluster_centers_):
+        top_idx = center.argsort()[::-1][:n_words]
+        words = feature_names[top_idx]
+
+        print(f"Кластер {i}: {', '.join(words)}")
+
+print("СРАВНЕНИЕ ЭФФЕКТИВНОСТИ КЛАСТЕРИЗАЦИИ")
+
+# Программа будет выполнять четыре итерации кластеризации, используя
+# предобработанные/не обработанные данные, а также CountVectorizer/TfidfVectorizer
+batches = [
+    ("CountVectorizer без предобработки", data, CountVectorizer()),
+    ("CountVectorizer с предобработкой", preprocessed, CountVectorizer()),
+    ("TfidfVectorizer без предобработки", data, TfidfVectorizer()),
+    ("TfidfVectorizer с предобработкой", preprocessed, TfidfVectorizer())
+]
+
+for name, data, vectorizer in batches:
+    print(name)
+
+    X, labels, score, model = clustering(data, vectorizer)
+
+    print(f"Silhouette Score: {score:.4f}")
+
+    print("Ключевые слова:")
+    print_top_words(vectorizer, model)
+```

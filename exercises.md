@@ -54,3 +54,35 @@ print(h3)
 h4 = dict(heroes)
 print(h4)
 ```
+
+## Упражнение из главы 3
+
+Задача: использовать файл "revolutionary_war.csv", в котором приведены даты исторических сражений во время Войны за независимость США. Требуется определить, сколько сражений было в каждый из дней недели.
+
+Решение задачи приведено для Google Colab. Закоментированный код используется для проверки корректности выполненных операций. Решение:
+
+```py
+import pandas as pd
+
+# Загрузка файла в папку проекта в Google Colab
+#from google.colab import files
+#uploaded = files.upload()
+
+# Загружаем только колонку "Start Date" из CSV и явным образом указываем
+# поле, в котором хранится дата сражения
+df = pd.read_csv('revolutionary_war.csv', 
+                 parse_dates = ["Start Date"],
+                 usecols=['Start Date'])
+
+#print(df.head())
+#print(df['Start Date'].dtype)
+
+# Преобразуем даты сражения в дни недели
+day_names = df['Start Date'].apply(lambda x: x.day_name())
+
+# Выполняем подсчёт количества элементов с каждым из дней недели
+sorted_counts = day_names.value_counts()
+print(sorted_counts)
+```
+
+В книге описывается применение функции `strftime("%A")`, которая возвращает день недели, но я её не использовал явным образом.

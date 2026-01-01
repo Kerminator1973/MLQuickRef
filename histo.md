@@ -338,7 +338,7 @@ plt.grid(axis='y', alpha=0.75)
 plt.show()
 ```
 
-Можно добавить фильтрацию с использование _percentiles_:
+Можно добавить фильтрацию с использованием _percentiles_:
 
 ```py
 # ---- Compute the 10 % and 90 % percentiles -------------------------

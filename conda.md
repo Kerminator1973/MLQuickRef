@@ -110,3 +110,65 @@ import pandas as pd
 ```
 
 И действительно, именно в этом проекте Pandas не был использован. Соответственно, инструкция по установке могла бы быть чуть короче. Т.е. Linter - это значимый бонус.
+
+Для применения фильтрации с использованием перцентелей, был использован GigaChat, который предложил следующий вариант решения:
+
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+import matplotlib.patches as patches
+
+# Загрузка BMP в оттенках серого
+img = Image.open('image.bmp').convert('L')
+arr = np.array(img)  # 2D массив пикселей (0-255)
+
+# Координаты региона
+col, row = 112 + 3, 44 + 6
+width, height = 5, 7
+region = arr[row:row+height, col:col+width]
+values = region.ravel()
+
+# Вычисление перцентилей
+low_percentile = np.percentile(values, 10)
+high_percentile = np.percentile(values, 90)
+
+# Маски для фильтрации
+low_mask = values < low_percentile
+high_mask = values > high_percentile
+filtered_mask = ~ (low_mask | high_mask)  # Внутри диапазона
+removed_values = values[low_mask | high_mask]
+
+# ---- Первое окно: гистограмма ----
+plt.figure(figsize=(8, 5))
+plt.hist(values[filtered_mask], bins=range(0, 257, 5),
+         edgecolor='black', alpha=0.7, label='Kept (10–90%)')
+plt.hist(removed_values, bins=range(0, 257, 5),
+         color='orange', edgecolor='black', alpha=0.8,
+         label='Removed (<10% or >90%)')
+plt.title('Histogram of 5×7 region at (115,50) with percentile-based filtering')
+plt.xlabel('Pixel intensity')
+plt.ylabel('Frequency')
+plt.legend()
+plt.grid(axis='y', alpha=0.75)
+plt.tight_layout()
+plt.show(block=False)  # Не блокируем выполнение
+
+# ---- Второе окно: изображение с рамкой ----
+fig, ax = plt.subplots(figsize=(8, 6))
+ax.imshow(arr, cmap='gray', origin='upper')
+ax.set_title('Grayscale BMP with selected 5×7 area')
+rect = patches.Rectangle(
+    (col, row),
+    width, height,
+    linewidth=1,
+    edgecolor='red',
+    facecolor='none'
+)
+ax.add_patch(rect)
+ax.axis('off')
+
+plt.show()
+```
+
+Кроме добавления и визуализации фильтрации, так же с помощью GigaChat была изменена логика отображения окон с гистограммой и изображением банкноты - теперь они могут отображаться на экране одновременно и их можно перемещать, см.: `plt.show(block=False)`

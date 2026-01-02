@@ -389,3 +389,25 @@ google.apply(round)
 ```
 
 Вызов apply() возвращает новый экземпляр Series.
+
+## DataFrame
+
+DataFrame - это аналог Excel-таблицы, т.е. он работает в двух измерениях. Инициализация DataFrame может выглядеть следующим образом:
+
+```py
+city_data = {
+    "City": ["New York City", "Paris", "Barcelona", "Rome"],
+    "Country": ["United States", "France", "Spain", "Italy"],
+    "Population": [8600000, 2141000, 5515000, 2873000]
+}
+
+cities = pd.DataFrame(city_data)
+```
+
+Развернуть таблицу можно используя функцию transpose:
+
+```py
+cities.transpose()
+```
+
+либо `cities.T`

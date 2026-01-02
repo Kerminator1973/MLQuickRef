@@ -172,3 +172,123 @@ plt.show()
 ```
 
 Кроме добавления и визуализации фильтрации, так же с помощью GigaChat была изменена логика отображения окон с гистограммой и изображением банкноты - теперь они могут отображаться на экране одновременно и их можно перемещать, см.: `plt.show(block=False)`
+
+Отображение двух отдельных окон не очень удобно. Кажется, что более рациональным было бы размещать оба элемента (гистограмма и изображение) в одном окне и перемещаться между ними с помощью кнопок "Назад" / "Вперёд". 
+
+К сожалению, стандартные кнопки "Back" и "Forward" в панели инструментов Matplotlib (matplotlib.widgets.BackToolbar) не предназначены для переключения между разными графиками, а используются для навигации по состояниям масштабирования и панорамирования (например, "назад к предыдущему зуму").
+
+GigaChat, Cloude 4.5 Sonet и Gemini 3 Flash предложили вариант с добавлением кнопок в пользовательский интерфейс главного окна, или с обработкой клавиш клавиатуры `Left` и `Right`. Вариант от GigaIDE показался наиболее красивым:
+
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+import matplotlib.patches as patches
+from matplotlib.widgets import Button
+
+# --- Загрузка изображения ---
+img = Image.open('image.bmp').convert('L')
+arr = np.array(img)
+
+# --- Параметры региона ---
+col, row = 112 + 3, 44 + 6
+width, height = 5, 7
+region = arr[row:row+height, col:col+width]
+values = region.ravel()
+
+# --- Фильтрация по перцентилям ---
+low_percentile = np.percentile(values, 10)
+high_percentile = np.percentile(values, 90)
+removed_values = values[(values < low_percentile) | (values > high_percentile)]
+kept_values = values[(values >= low_percentile) & (values <= high_percentile)]
+
+# --- Подготовка интерфейса ---
+fig, ax = plt.subplots(figsize=(10, 6))
+plt.subplots_adjust(bottom=0.2)  # Место под кнопки
+
+# --- Кнопки ---
+ax_back = plt.axes([0.3, 0.05, 0.1, 0.075])
+ax_forward = plt.axes([0.6, 0.05, 0.1, 0.075])
+btn_back = Button(ax_back, 'Back')
+btn_forward = Button(ax_forward, 'Forward')
+
+# --- Страницы ---
+pages = ['histogram', 'image']
+current_page = 0
+
+def show_page(page):
+    ax.clear()
+    if page == 'histogram':
+        ax.hist(kept_values, bins=range(0, 257, 5), edgecolor='black', alpha=0.7, label='Kept (10–90%)')
+        ax.hist(removed_values, bins=range(0, 257, 5), color='orange', edgecolor='black', alpha=0.8, label='Removed')
+        ax.set_title('Histogram: Pixel Intensity Distribution')
+        ax.set_xlabel('Intensity')
+        ax.set_ylabel('Count')
+        ax.legend()
+        ax.grid(axis='y', alpha=0.75)
+    elif page == 'image':
+        ax.imshow(arr, cmap='gray', origin='upper')
+        ax.set_title('Grayscale Image with 5×7 Region')
+        rect = patches.Rectangle((col, row), width, height, linewidth=2, edgecolor='red', facecolor='none')
+        ax.add_patch(rect)
+        ax.axis('off')
+    fig.canvas.draw_idle()
+
+# --- Обработчики кнопок ---
+def on_forward(event):
+    global current_page
+    current_page = (current_page + 1) % len(pages)
+    show_page(pages[current_page])
+
+def on_back(event):
+    global current_page
+    current_page = (current_page - 1) % len(pages)
+    show_page(pages[current_page])
+
+btn_forward.on_clicked(on_forward)
+btn_back.on_clicked(on_back)
+
+# --- Показать первую страницу ---
+show_page(pages[current_page])
+
+# --- Отобразить окно ---
+plt.show()
+```
+
+Однако во всех вариантах нарушалось маштабирование гистограммы по оси Y и форма становилась абсолютно не читаемой. Все три ИИ не предложили работоспособного варианта решения данной проблемы. Более того, предложенные (несколько) варианты были либо приводили к падению приложения, либо оказались на работоспособными (использованием `set_ylim()`).
+
+При анализе кода узнал, что matplotlib.pyplot для открытия окон и отрисовки графиков и изображений использует GUI-бэкенды, такие как:
+
+- TkAgg (на основе Tkinter)
+- Qt5Agg (на основе PyQt5)
+
+Вот на чём базируется моё утверждение:
+
+```py
+try:
+    import tkinter as tk
+    root = tk.Tk()
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    root.destroy()
+except:
+    # Если Tk недоступен, используем примерные значения
+    screen_width, screen_height = 1920, 1080
+```
+
+```py
+# Перемещение окна
+manager1 = plt.get_current_fig_manager()
+try:
+    # Для Tkinter
+    manager1.window.wm_geometry(f"+{pos_left[0]}+{pos_left[1]}")
+except:
+    pass
+```
+
+```
+File "C:\Users\kermi\miniconda3\envs\HistoProject\Lib\site-packages\matplotlib\backends\backend_qt.py", line 657, in start_main_loop
+  with _allow_interrupt_qt(qapp):
+```
+
+В результате многочисленных экспериментов с ИИ откатился до варианта с двумя отдельными окнами. Нужно более серьёзно погружаться в техническую документацию, чтобы решить те проблемы, которые не смог адекватно решить ИИ.

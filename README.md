@@ -429,3 +429,23 @@ nba.nlargest(n = 4, columns = "Salary")
 ```py
 nba.nsmallest(n = 3, columns = ["Birthday"])
 ```
+
+Пример сортировки данных по двум полям:
+
+```py
+nba.sort_values(
+    by = ["Team", "Salary"], ascending = [True, False]
+)
+```
+
+Сбросить сортировку в начальное состояние можно вызовом:
+
+```py
+nba.sort_index().head();
+```
+
+Или: 
+
+```py
+nba.sort_index(ascending = True).head();
+```

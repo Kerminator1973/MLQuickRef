@@ -53,3 +53,17 @@ Core i3‑13100 подходит для экспериментов с Ollama и 
 Для запуска моделей с Hugging Face необходима Ollama. Можно зарузить Docker-контейнер, но для этого нужне API-ключ (DASHSCOPE_API_KEY), а также поддержку containerd engine в Docker.
 
 Благодаря использованию карточек моделей и поиска, на Hugging Face довольно удобно искать специализированные модели.
+
+## Установка Ollama
+
+Команда установки Ollama в Linux:
+
+```shell
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+Проверка версии:
+
+```shell
+ollama --version
+```

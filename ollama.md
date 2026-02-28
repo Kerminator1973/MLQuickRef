@@ -69,3 +69,9 @@ curl -fsSL https://ollama.com/install.sh | sh
 ```shell
 ollama --version
 ```
+
+Инсталлятор клиента Ollama в Microsoft Windows загружается напрямую с сайта. Его развер составляет 1.2 ГБ. Без заведения аккаунта доступно всего несколько моделей. Размер модели gemma3:4b - 3.1 ГБ.
+
+Ollama выполняет модель gemma3:4b вполне шустро, приблизительно, со скоростью чуть медленнее вывода на Duck.io в web, на компьютере с процессором Core i3 13100, без дискретной графики. При этом процессор нагревается до 60+ градусов.
+
+Приложения "ollama app.exe" и "ollama.exe" находятся в папке: `C:\Users\[User]\AppData\Local\Programs\Ollama\ollama app.exe`

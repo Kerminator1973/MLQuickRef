@@ -75,3 +75,13 @@ ollama --version
 Ollama выполняет модель gemma3:4b вполне шустро, приблизительно, со скоростью чуть медленнее вывода на Duck.io в web, на компьютере с процессором Core i3 13100, без дискретной графики. При этом процессор нагревается до 60+ градусов.
 
 Приложения "ollama app.exe" и "ollama.exe" находятся в папке: `C:\Users\[User]\AppData\Local\Programs\Ollama\ollama app.exe`
+
+На портале Hugging Face можно найти модель в формате GGUF. На странице модели нужно выбрать "Use this model" и "Ollama", а затем получить команду для загрузки в консоли Ollama. Например:
+
+```shell
+ollama run hf.co/mistralai/Ministral-3-8B-Instruct-2512-GGUF:Q4_K_M
+```
+
+В описании модели есть список аппаратной совместимости. LLM любят VRAM и FP8: "_The Ministral 3 family is designed for edge deployment, capable of running on a wide range of hardware. Ministral 3 8B can even be deployed locally, capable of fitting in 12GB of VRAM in FP8, and less if further quantized._"
+
+Для задач edge deployment минимальная аппаратная рекомендация - использование дискретной видео-карты с 16 ГБ ОЗУ VRAM.

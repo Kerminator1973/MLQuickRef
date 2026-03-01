@@ -102,6 +102,26 @@ ollama run hf.co/ruv/ruvltra-claude-code:Q4_K_M
 
 Установка прошла успешно.
 
+Получить список установленных моделей можно командой:
+
+```shell
+ollama list
+```
+
+В моём случае результат выглядел как:
+
+```shell
+NAME                                    ID              SIZE      MODIFIED
+gemma3:4b                               a2af6cc3eb7f    3.3 GB    10 hours ago
+hf.co/ruv/ruvltra-claude-code:Q4_K_M    8bb329307daa    397 MB    10 hours ago
+```
+
+Удалить модель можно командой:
+
+```shell
+ollama rm hf.co/ruv/ruvltra-claude-code:Q4_K_M
+```
+
 Эта крошечная модель работает на Core i3 13100 очень быстро. Существенное ограничение - поддержка только английского языка. Для теста попросил проанализировать LLM код моего короткого приложения на Python:
 
 ```py

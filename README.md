@@ -521,3 +521,18 @@ nba.iloc[[100, 200, 300, 400]]
 ```py
 nba.iloc[400:404]
 ```
+
+Извлечь значение конретной ячейки можно командой:
+
+```py
+nba.loc["Giannis Antetokounmpo", "Temp"]
+```
+
+Можно извлечь несколько строк и столбцов:
+
+```py
+nba.loc[
+    ["Russel Westbrook", "Anthony Davis"],
+    ["Team", "Salary"]
+]
+```

@@ -254,13 +254,29 @@ ollama run qwen3.5:9b
 
 ## Запуск моделей в Python среде (Google Colab) - UNDERCONSTRUCTION
 
-Гипотетически, можно поднять LLM на машине Google Colab. Однако для приемлемой производительности **НЕОБХОДИМО** активировать runtime с поддержкой GPU. Такая возможность может быть заблокирована для пользователей из России по причине санкций.
+Гипотетически, можно поднять LLM на машине Google Colab. Однако для приемлемой производительности активировать runtime с поддержкой GPU. Осуществляется в разделе "Сменить среду выполнения". В бесплатном тарифном плане доступны "графический процессор T4" и "TPU v5e-1".
+
+### NVIDIA Tesla T4
+
+Это GPU (графический процессор) от NVIDIA, выпущенный в 2018 году на архитектуре Turing.
+
+Ключевые характеристики: 16 ГБ видеопамяти GDDR6, 320 тензорных ядер (Tensor Cores) для ускорения матричных операций, пиковая производительность ~65 TFLOPS для FP16. Это один из самых популярных GPU для инференса (запуска) нейросетей в облаке. Хорошо подходит для обучения и запуска моделей среднего размера.
+
+### Google TPU v5e-1
+
+Это TPU (Tensor Processing Unit) — специализированный процессор, разработанный Google именно для задач машинного обучения.
+
+Ключевые характеристики: v5e — поколение 2023 года, оптимизированное для эффективности и доступности, суффикс "1" означает одно TPU-ядро, производительность ~197 TFLOPS для BF16, поддержка формата BF16 (bfloat16), который особенно удобен для обучения нейросетей.
+
+### Установка моделей
 
 Для запуска LLM необходимо установить дополнительные библиотеки:
 
 ```shell
 !pip install -q transformers accelerate sentencepiece bitsandbytes
 ```
+
+Специальный символ (восклицательный знак) указывает на то, что дальше идёт команда, которая должна быть выполнена в консоли операционной системы. Таким образом различается код на Python и команды на bash.
 
 Пояснение по устанавливаемым библиотекам:
 
@@ -269,7 +285,7 @@ ollama run qwen3.5:9b
 - sentencepiece: tokenizer. Требуется некоторыми моделями
 - bitsandbytes: допускает quantization (уменьшение размера моделей) для ускорения загрузки и генерации текста. Эта библиотека крайне рекомендуется.
 
-Пример загрузки модели Mistral 7B:
+Пример загрузки модели Mistral 7B (размер - более 15 ГБ):
 
 ```py
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -303,3 +319,32 @@ with torch.no_grad():
 
 print(tokenizer.decode(output[0], skip_special_tokens=True))
 ```
+
+Ниже приведён вариант загрузки модели Qwen2.5
+
+```py
+# Загружаем модель с квантизацией 4-bit (чтобы влезть в 16 ГБ VRAM)
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+import torch
+
+model_name = "Qwen/Qwen2.5-7B-Instruct"  # ближайший доступный вариант на HF
+
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_compute_dtype=torch.float16
+)
+
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    quantization_config=bnb_config,
+    device_map="auto"
+)
+
+# Генерация ответа
+inputs = tokenizer("Привет! Расскажи о себе.", return_tensors="pt").to("cuda")
+outputs = model.generate(**inputs, max_new_tokens=200)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+```
+
+>Крайне важно после использования сети отключить использование GPU.

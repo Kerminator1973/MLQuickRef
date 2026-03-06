@@ -251,3 +251,55 @@ ollama run qwen3.5:9b
 Форматы квантизации GGUF (llama.cpp), GPTQ и AWQ — наиболее распространённые. Они отличаются методом компрессии и способом калибровки, но цель одна: минимизировать потерю качества при максимальном сжатии.
 
 Если коротко: квантизованная модель — это компромисс между качеством и доступностью. Она менее требовательна к железу, но чуть менее умна, чем оригинал в полной точности.
+
+## Запуск моделей в Python среде (Google Colab) - UNDERCONSTRUCTION
+
+Гипотетически, можно поднять LLM на машине Google Colab. Однако для приемлемой производительности **НЕОБХОДИМО** активировать runtime с поддержкой GPU. Такая возможность может быть заблокирована для пользователей из России по причине санкций.
+
+Для запуска LLM необходимо установить дополнительные библиотеки:
+
+```shell
+!pip install -q transformers accelerate sentencepiece bitsandbytes
+```
+
+Пояснение по устанавливаемым библиотекам:
+
+- transformers: библиотека от Hugging Face для загрузки и использования LLM
+- accelerate: помогает с эффективным использованием GPU
+- sentencepiece: tokenizer. Требуется некоторыми моделями
+- bitsandbytes: допускает quantization (уменьшение размера моделей) для ускорения загрузки и генерации текста. Эта библиотека крайне рекомендуется.
+
+Пример загрузки модели Mistral 7B:
+
+```py
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+
+model_name = "mistralai/Mistral-7B-v0.1"
+
+tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    torch_dtype=torch.float16,
+    device_map="auto",
+    # quantization_config = BitsAndBytesConfig(load_in_4bit=True) #Optional 4-bit quantization
+)
+
+print(model.config)
+```
+
+Пример генерации текста (процесс называется **Inference**):
+
+```py
+prompt = "Write a short story about a robot who dreams of becoming a painter."
+
+input_ids = tokenizer(prompt, return_tensors="pt").to(model.device)
+
+with torch.no_grad():
+    output = model.generate(input_ids.input_ids,
+                            max_length=200,
+                            temperature=0.7,    # Adjust for creativity
+                            top_p=0.9)          # Adjust for creativity
+
+print(tokenizer.decode(output[0], skip_special_tokens=True))
+```

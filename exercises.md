@@ -111,3 +111,33 @@ print(data)
 teams = players.groupby("Team")
 print(teams["Name"].count().head())
 ```
+
+Задача №4: какие игроки являются наиболее высоко-оплачиваемыми:
+
+```py
+print(players.sort_values(by=["Salary"], ascending=False).head())
+```
+
+Ключевым в задании является указание, что сортировка должна осуществляться **по убыванию** значений поля "Salary".
+
+Задание №5 - отсортировать набор данных сначала по командам в алфавитном порядке, а затем по зарплатам в порядке убывания.
+
+Решение:
+
+```py
+print(players.sort_values(by=["Team", "Salary"],ascending=[True, False]))
+```
+
+Задание №6: кто самый возрастной игрок в списке команды "Нью-Йорк Джетс" и когда он родился.
+
+Решение:
+
+```py
+jets = players[players["Team"] == "New York Jets"]
+sorted_by_birthday = jets.sort_values(by=["Birthday"],ascending=True)
+print(sorted_by_birthday.iloc[0])
+```
+
+Ключевая строка - первая, в которой мы указываем массив логических значений (True/False) в качестве индексатора FrameData players. Т.е. сначала мы готовим Series, в каждом элементе которого вычисляем True, или False (`players["Team"] == "New York Jets"`), а потом уже формируем новые FrameData.
+
+После сортировки данных, извлекаем первый элемент таблицы - это **Ryan Kalil**.

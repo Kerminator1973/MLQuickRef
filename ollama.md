@@ -76,7 +76,7 @@ ollama --version
 
 Ollama выполняет модель gemma3:4b вполне шустро, со скоростью чуть медленнее вывода на Duck.io в web, на компьютере с процессором Core i3-13100, без дискретной графики. При этом процессор нагревается до 60+ градусов.
 
-Приложения "ollama app.exe" и "ollama.exe" находятся в папке: `C:\Users\[User]\AppData\Local\Programs\Ollama\ollama app.exe`
+Приложения "ollama app.exe" и "ollama.exe" находятся в папке: `%USERPROFILE%\AppData\Local\Programs\Ollama`
 
 На портале Hugging Face можно найти модель в формате GGUF. На странице модели нужно выбрать "Use this model" и "Ollama", а затем получить команду для загрузки в консоли Ollama. Например:
 

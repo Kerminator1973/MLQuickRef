@@ -611,3 +611,11 @@ maria = employees[employees["First Name"] == "Maria"]
 ```py
 employees[employees["Mgmt"]]
 ```
+
+Чтобы выделить подмножество по нескольким признакам, сначала нужно сформировать Series по каждой колонке, используемой в условии, а затем применить к ним либо логическое И, либо логическое ИЛИ:
+
+```py
+is_female = employees["Gender"] == "Famale"
+is_biz_dev = employees["Team"] == "BusinessDev"
+employeers[is_female & is_biz_dev].head()
+```

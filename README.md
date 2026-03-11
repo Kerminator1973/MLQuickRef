@@ -619,3 +619,9 @@ is_female = employees["Gender"] == "Famale"
 is_biz_dev = employees["Team"] == "BusinessDev"
 employeers[is_female & is_biz_dev].head()
 ```
+
+Мы также можем использовать операцию логического отрицания применитьно к Series:
+
+```py
+~my_series
+```

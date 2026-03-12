@@ -625,3 +625,37 @@ employeers[is_female & is_biz_dev].head()
 ```py
 ~my_series
 ```
+
+Если нам нужно использовать несколько вариантов значений для фильтрации данных, то создать несколько Series и перечислить их через логическое ИЛИ:
+
+```py
+sales = employees["Team"] == "Sales"
+legal = employees["Team"] == "Legal"
+mktg = employees["Team"] == "Marketing"
+employees[sales | legal | mktg].head()
+```
+
+Более универсальный подход выглядит так:
+
+```py
+all_star_teams = ["Sales", "Legal", "Marketing"]
+on_all_star_teams = employees["Team"].isin(all_star_teams)
+employees[on_all_star_teams].head()
+```
+
+Если нам нужно выделить какие-то данные из диапазона, то можно использовать вот такой код:
+
+```py
+higher_than_80 = employees["Salary"] >= 80000
+lower_than_90 = employees["Salary"] < 90000
+employees[higher_than_80 & lower_than_90].head()
+```
+
+Однако более эффективным является использование метода between():
+
+```py
+between_80k_and_90k = employees["Salary"].between(80000, 9000)
+ employees[between_80k_and_90k].head()
+```
+
+Метод between() можно применять и к датам, а также к строковым значениям.

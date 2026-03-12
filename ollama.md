@@ -392,7 +392,7 @@ C:\Users\[User]\AppData\Local\Programs\Ollama\ollama.exe serve
 Для программирования рекомендуется попробовать следующие модели:
 
 - deepseek-coder-v2:6.7b (Q4) — специализируется на коде, ~3,8 ГБ, требует ~6 ГБ VRAM
-- nemotron-nano:9b — лучший по LiveCodeBench, хорош для генерации кода
+- nemotron-nano:9b — лучший по LiveCodeBench, хорош для генерации кода. Это разработка Nvidia, см. [страницу модели на Hugging Face](https://huggingface.co/lmstudio-community/NVIDIA-Nemotron-3-Nano-30B-A3B-GGUF)
 
 Резюме: На видеокарте с 8 ГБ VRAM следует запускать 7–8B модели с 4‑битной квантизацией (Q4_K_M).
 

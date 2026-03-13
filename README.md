@@ -655,7 +655,41 @@ employees[higher_than_80 & lower_than_90].head()
 
 ```py
 between_80k_and_90k = employees["Salary"].between(80000, 9000)
- employees[between_80k_and_90k].head()
+employees[between_80k_and_90k].head()
 ```
 
 Метод between() можно применять и к датам, а также к строковым значениям.
+
+### Работа с пустыми значениями
+
+Метод `isnull()` возвращает объект Series типа boolean, в котором True означает, что значение для соответствующей строки отсутствует:
+
+```py
+employees["Team"].isnull()head()
+```
+
+В качестве пустых, Pandas рассматривает значения NaN, NaT и None.
+
+Обратное значение:
+
+```py
+employees["Team"].notnull()head()
+```
+
+Удалить все строки в которых есть NaN значения в любых полях:
+
+```py
+employees.dropna()
+```
+
+Можно управлять тем, как работает код метода `dropna()`. Например, можно указать, что удалять нужно только те строки, в которых все поля являются null:
+
+```py
+employees.dropna(how = "all")
+```
+
+Также можно указать список полей, соответствие которых null нужно принимать во внимание:
+
+```py
+employees.dropna(subset = ["Gender"])
+```

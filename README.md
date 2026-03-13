@@ -665,7 +665,7 @@ employees[between_80k_and_90k].head()
 Метод `isnull()` возвращает объект Series типа boolean, в котором True означает, что значение для соответствующей строки отсутствует:
 
 ```py
-employees["Team"].isnull()head()
+employees["Team"].isnull().head()
 ```
 
 В качестве пустых, Pandas рассматривает значения NaN, NaT и None.
@@ -673,7 +673,7 @@ employees["Team"].isnull()head()
 Обратное значение:
 
 ```py
-employees["Team"].notnull()head()
+employees["Team"].notnull().head()
 ```
 
 Удалить все строки в которых есть NaN значения в любых полях:

@@ -334,6 +334,20 @@ with torch.no_grad():
 print(tokenizer.decode(output[0], skip_special_tokens=True))
 ```
 
+Стоит заметить, что после запуска модели (см. код выше) был получен ряд сообщений об ошибках в параметрах вызова:
+
+>The following generation flags are not valid and may be ignored: ['temperature', 'top_p']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+>
+>The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+>
+>Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+>
+>The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+
+Эти ошибки говорят о том, что параметры для конкретной модели заданы не корректно. Поскольку сам код примера загрузки и запуска модели был сгенерирован ИИ, можно говорить о низкой степени доверия коду, взаимодействия с конкретными моделями. Перед использованием модели необходимо внимательно прочитать соответствующую документацию.
+
+## Qwen2.5 (ИИ)
+
 Ниже приведён вариант загрузки модели Qwen2.5
 
 ```py

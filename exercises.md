@@ -227,3 +227,14 @@ start_date = df["date_added"] >= '2019-05-01'
 end_date = df["date_added"] < '2019-06-01'
 print(df[start_date & end_date].head())
 ```
+
+Решение седьмого и восьмого заданий:
+
+```py
+cleaned = df.dropna(subset = ["director"])
+print(cleaned)
+
+# Восьмое задание
+only_one = df.drop_duplicates(subset = ["date_added"], keep = False)
+print(only_one)
+```

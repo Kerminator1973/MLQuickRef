@@ -211,3 +211,19 @@ director = df["director"] == "Robert Altman"
 date_added = df["date_added"] == '2019-07-31'
 print(df[director | date_added].head())
 ```
+
+Решение пятого задания:
+
+```py
+directors = ["Orson Welles", "Aditya Kripalani", "Sam Raimi"]
+star_teams = df["director"].isin(directors)
+print(df[star_teams].head())
+```
+
+Решение шестого задания:
+
+```py
+start_date = df["date_added"] >= '2019-05-01'
+end_date = df["date_added"] < '2019-06-01'
+print(df[start_date & end_date].head())
+```

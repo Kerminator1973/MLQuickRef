@@ -48,6 +48,12 @@ Anaconda Navigator — это графический интерфейс поль
 
 Также можно добавить путь к скриптам Miniconda в переменную Path: `C:\Users\<YourUser>\miniconda3\Scripts`. Универсальный путь в Microsoft Windows можно задать используя системый макрос: `%USERPROFILE%\miniconda3\Scripts`
 
+Добавить путь к конда для текущего терминала (cmd в Windows):
+
+```shell
+set PATH=%PATH%;%USERPROFILE%\miniconda3\Scripts;
+```
+
 Проверить установленную версию conda можно командой:
 
 ```shell

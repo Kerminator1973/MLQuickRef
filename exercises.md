@@ -193,3 +193,21 @@ print(df.head())
 ```
 
 Мой вариант реализует два действия, которых нет в ответе автора книги - он не оптимизирует "director" как категорию и он выполняет импорт даты и времени используя read_csv(), тогда как я явным образом преобразовываю дату с указанием конкретного формата.
+
+Мои решений со второго по четвертое:
+
+```py
+# Второе упражнение
+limitless = df[df["title"] == "Limitless"]
+print(limitless)
+
+# Третье задание
+director = df["director"] == "Robert Rodriguez"
+movie = df["type"] == "Movie"
+print(df[director & movie].head())
+
+# Четвёртое задание
+director = df["director"] == "Robert Altman"
+date_added = df["date_added"] == '2019-07-31'
+print(df[director | date_added].head())
+```

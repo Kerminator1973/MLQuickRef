@@ -238,3 +238,62 @@ print(cleaned)
 only_one = df.drop_duplicates(subset = ["date_added"], keep = False)
 print(only_one)
 ```
+
+## Упражнения из главы 6
+
+На первый взгляд, решение задачи типовое - выполнить split() по запятой, а потом - новое поле "Street" по пробелу:
+
+```py
+import pandas as pd
+
+customers = pd.read_csv('customers.csv')
+
+# Задача: есть столбец Address, который нужно разбить на четыре новых столбца: Street, City, State и Zip
+# Примеры адресов:
+#   "6461 Quinn Groves, East Matthew, New Hampshire, 16656"
+#   "1360 Tracey Ports Apt. 419, Kyleport, Vermont, 31924"
+#
+# Zip - последнее значение из списка
+# State - предпоследнее
+# City - перед штатом
+# Street - это самый первый элемент, но без номера дома
+
+customers[["Street", "City", "State", "Zip"]] = customers["Address"].str.split(pat = ",", expand = True)
+customers["Street"] = customers["Street"].apply(lambda x: x.split(" ", 1)[1] if len(x.split(" ", 1)) > 1 else None)
+
+print(customers.head())
+```
+
+В приведённом выше решении применяется лямбда-функция для обеспечения защиты от данных, не соответствующих предположению о том, что номер дома и улица разделены пробелом. Однако, если предположение верное, то сработает следующий код, который выглядит более понятно и очевидно:
+
+```py
+customers["Street"] = customers["Street"].str.split(pat = " ", n = 1, expand=True)[1]
+```
+
+Для того, чтобы вывести все колонки DataFrame с изменённой структурой, может потребоваться добавить специализированные настройки:
+
+```py
+#print(customers.columns)
+#
+# Показать все колонки
+pd.set_option('display.max_columns', None)
+
+# Дополнительно: показать больше строк (None — все строки)
+#pd.set_option('display.max_rows', None)
+
+# Можно также увеличить ширину колонок
+pd.set_option('display.width', None)
+pd.set_option('display.max_colwidth', None)
+```
+
+Единственное, что я не сделал - не удалил исходный столбец "Address", что можно было бы сделать так:
+
+```py
+customers.drop(labels = "Address", axis = "columns")
+```
+
+Альтернативный вариант:
+
+```py
+del customers["Address"]
+```

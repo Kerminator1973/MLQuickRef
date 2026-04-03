@@ -297,3 +297,13 @@ customers.drop(labels = "Address", axis = "columns")
 ```py
 del customers["Address"]
 ```
+
+## Использование регулярных выражений в Pandas
+
+Можно применять регулярные выражения для обработки значений полей DataFrame и Series:
+
+```py
+customer["Street"].str.replace("\d{4,}", "*", regex = True);
+```
+
+## Мульти-индексные объекты DataFrame

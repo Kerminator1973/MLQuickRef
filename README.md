@@ -747,8 +747,56 @@ customers["Name"].str.split(pat = "", n = 1, expand = True).head()
 customers[["First Name", "LastName"]] = customers["Name"].str.split(pat = "", n = 1, expand = True)
 ```
 
-После добавления расширенных полей можно удалить оригинальную колонкуЖ
+После добавления расширенных полей можно удалить оригинальную колонку:
 
 ```py
 customers = customers.drop(labels = "Name", axis = "columns")
+```
+
+## Использование регулярных выражений в Pandas
+
+Можно применять регулярные выражения для обработки значений полей DataFrame и Series:
+
+```py
+customer["Street"].str.replace("\d{4,}", "*", regex = True);
+```
+
+## Мульти-индексные объекты DataFrame
+
+Смысл мульти-индексов состоит в том, что для работы нам может потребоваться уникальный индекс страницы, а отдельные ячейки не позволяют нам это сделать, т.к. значения дублируются. В этом случае имеет смысл объединять значения нескольких ячеек строки для создания общего индекса.
+
+```py
+address = ("8890 Flair Square", "Tobbside", "IL", "37206")
+```
+
+Можно собрать несколько таких кортежей и использовать их в роли индекса объекта DataFrame.
+
+В Pandas такая метка является объектом типа MultiIndex. Связать DataFrame с кортежами можно используя следующий синтаксис:
+
+```py
+pd.MultiIndex.from_tuples(addresses)
+pd.MultiIndex.from_tuples(tuples = addresses)
+```
+
+В терминологии pandas набор значений кортежа, расположенных на одной позиции индекса, образует _уровень_ (level) объекта MultiIndex. Можно задавать названия для уровней объекта MultiIndex:
+
+```py
+row_index = pd.MultiIndex.from_tuples(
+    tuples = addresses,
+    names = ["Street", "City", "zip"]
+)
+```
+
+Присоединение мульти-индекса к объекту DataFrame может осуществляться вот так:
+
+```py
+data = [
+    ["A", "B+"],
+    ["C+", "C"],
+    ["D-", "A"]
+]
+
+columns = ["Schools", "Cost of Living"]
+
+area_grades = pd.DataFrame( data = data, index = row_index, columns = columns)
 ```

@@ -798,5 +798,24 @@ data = [
 
 columns = ["Schools", "Cost of Living"]
 
-area_grades = pd.DataFrame( data = data, index = row_index, columns = columns)
+area_grades = pd.DataFrame(data = data, index = row_index, columns = columns)
+```
+
+В реальной жизни существует целая куча проблем связанных с созданием мульти-индексов. Например, в данных могут отсутствовать значения (NaN). Это может помешать созданию мульти-индекса. Мы можем явным образом сообщить Pandas, какие колонки следует использовать в качестве мульти-индекса:
+
+```py
+neighborhoods = pd.read_csv("neighborhoods.csv", index_col=[0,1,2])
+```
+
+Затем можно явно указать набор столбцов, для которым мы используем заголовки:
+
+```py
+neighborhoods = pd.read_csv("neighborhoods.csv", index_col=[0,1,2], header=[0,1])
+```
+
+Извлечь объект индекс для конкретного урровня индексов можно используя функцию get_level_values(), например:
+
+```py
+neighborhoods.index.get_level_values(1)
+neighborhoods.index.get_level_values("City")
 ```

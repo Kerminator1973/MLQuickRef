@@ -819,3 +819,21 @@ neighborhoods = pd.read_csv("neighborhoods.csv", index_col=[0,1,2], header=[0,1]
 neighborhoods.index.get_level_values(1)
 neighborhoods.index.get_level_values("City")
 ```
+
+Обращаться к объекту MultiIndex для столбцов можно через атрибут **columns**. Например, можно присвоить новый список названий столцов:
+
+```py
+neighborhoods.columns.names = ['Category', 'Subcategory']
+```
+
+Библиотека Pandas может находить значения в упорядоченном наборе намного быстрее, чем в неупорядоченном. Следовательно, перед выбором строк и столбцов из орбъекта DataFrame имеет смысл отсортировать индекс:
+
+```py
+neighborhoods.sort_index()
+```
+
+Управлять сортировкой можно посредством параметризации вызова **sort_index**():
+
+```py
+neighborhoods.sort_index(level = [1, 2]).head()
+```

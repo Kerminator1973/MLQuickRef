@@ -837,3 +837,17 @@ neighborhoods.sort_index()
 ```py
 neighborhoods.sort_index(level = [1, 2]).head()
 ```
+
+Создать объект DataFrame с двумя строками и двумя столбцами можно командой:
+
+```py
+df = pd.DataFrame(
+    data = data, index = ["A", "B"], columns = ["X", "Y"]
+)
+```
+
+Выбрать столбец со значением "Services" на уровне Category и значение "School" на уровне "Subcategory" можно командой:
+
+```py
+neighborhoods[("Services", "Schools")]
+```

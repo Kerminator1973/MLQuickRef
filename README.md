@@ -851,3 +851,17 @@ df = pd.DataFrame(
 ```py
 neighborhoods[("Services", "Schools")]
 ```
+
+Стоит заметить, что приведённая выше выборка возвращает один столбец, т.е. Series.
+
+Чтобы извлечь несколько столбцов необходимо использовать чуть другую выборку:
+
+```py
+neighborhoods[[("Services", "Schools"), ("Culture", "Museums")]]
+```
+
+Методы получатели loc и iloc можно применять и для извлечения строки из мультииндексных объектов DataFrame, например:
+
+```py
+neighborhoods.loc[("TX", "Kingchester", "534 Gordon Falls")]
+````

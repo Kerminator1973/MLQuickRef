@@ -864,4 +864,10 @@ neighborhoods[[("Services", "Schools"), ("Culture", "Museums")]]
 
 ```py
 neighborhoods.loc[("TX", "Kingchester", "534 Gordon Falls")]
-````
+```
+
+Важно заметить, что к DataFrame можно применять срезы из основного синтаксиса Python - Pandas их понимает и корректно обарбатывает. Например, если нам нужно выделить все элементы первого индекса (State) начиная от NE и до NH, то сделать это можно буквально следующим образом:
+
+```py
+neighborhoods["NE":"NH"]
+```

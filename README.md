@@ -871,3 +871,23 @@ neighborhoods.loc[("TX", "Kingchester", "534 Gordon Falls")]
 ```py
 neighborhoods["NE":"NH"]
 ```
+
+Метод xs() позволяет извлекать строки, указывая значение только одного уровня мультииндекса. Например:
+
+```py
+neighborhoods.xs(key = "Lake Nicole", level = 1)
+neighborhoods.xs(key = "Lake Nicole", level = "City")
+```
+
+Выборка может быть достаточно сложной:
+
+```py
+neighborhoods.xs(key = ("AK", "238 Andrew Rue"), level = [0, 2])
+```
+
+Метод reorder_levels() позволяет перестоить порядок уровней мультиндекса:
+
+```py
+new_order = ["City", "State", "Street"]
+neighborhoods.reorder_levels(order = new_order)
+```

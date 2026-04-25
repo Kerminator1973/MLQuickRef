@@ -344,7 +344,7 @@ print(investments.xs(key = ("Acquired", 10), level = [0, 1]).head())
 print(investments.loc[("Operating", 6, "NJ")].head())
 ```
 
-решение подзадач №4-5:
+Решение подзадач №4-5:
 
 ```py
 # Exercise №4: Извлеките все строки с состоянием "Closed" и восемью раундами инвестиций.
@@ -356,4 +356,13 @@ print(investments.loc[("Closed", 8, )]["Name"].head())
 
 # Exercise №5: Извлеките все строки со штатом "NJ". Вне зависимости от значений уровней Status и Funding Round
 print(investments.xs(key = "NJ", level = "State").head())
+```
+
+Решение подзадачи №6:
+
+```py
+# Exercise №6: верните уровни мультииндекса обратно в число столбцов объекта DataFrame
+print(investments.head())
+investments = investments.reset_index()
+print(investments.head())
 ```

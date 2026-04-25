@@ -912,9 +912,8 @@ neighborhoods.set_index(keys = "City")
 neighborhoods.set_index(keys = ["State", "City"])
 ```
 
->Полноценно я не понял тему использования массивов и кортежей в управлении индексами. Нужно разбираться:
->
->```py
->neighborhoods.set_index(keys = ("Culture", "Museums"))
->```
+Следующий код преобразует указанные колонки DataFrame ("Culture" и "Museums") в уровни мультииндекса (MultiIndex). После выполнения операции эти колонки больше не будут отображаться как обычные столбцы — они станут частью индекса:
 
+```py
+neighborhoods.set_index(keys = ("Culture", "Museums"))
+```

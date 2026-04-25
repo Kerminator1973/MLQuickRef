@@ -1,6 +1,6 @@
 # Выполненные упражнения из книги "Pandas в действии" Бориса Пасхавера
 
-Примеры CSV-файлов, необходимых для выполнения тестовых заданий можно скачать в [официальном репозитарии](https://github.com/paskhaver/pandas-in-action/tree/master/chapter_04_the_dataframe_object) книги.
+Примеры CSV-файлов, необходимых для выполнения тестовых заданий можно скачать в [официальном репозитарии](https://github.com/paskhaver/pandas-in-action/tree/master) книги.
 
 Упражнения из главы 2:
 
@@ -297,3 +297,5 @@ customers.drop(labels = "Address", axis = "columns")
 ```py
 del customers["Address"]
 ```
+
+## Упражнения из главы 7

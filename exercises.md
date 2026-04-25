@@ -325,9 +325,7 @@ investments = investments.set_index(
 ).sort_index()
 ```
 
-### Подзадания №1-3
-
-Моё решение в сравнении с решениями из книги:
+Моё решение подзадач №1-3 в сравнении с решениями из книги:
 
 ```py
 # Exercise №1: Извлеките все строки с состоянием "Closed"
@@ -344,4 +342,18 @@ print(investments.xs(key = ("Acquired", 10), level = [0, 1]).head())
 
 # Exercise №3: Извлеките все строки с состоянием "Operating", шестью раундами инвестиций и штатом "NJ"
 print(investments.loc[("Operating", 6, "NJ")].head())
+```
+
+решение подзадач №4-5:
+
+```py
+# Exercise №4: Извлеките все строки с состоянием "Closed" и восемью раундами инвестиций.
+# Извлеките только столбец "Name"
+print(investments.loc[("Closed", 8, )]["Name"].head())
+
+# Вариант решения из книги. Результаты одинаковые
+#print(investments.loc[("Closed", 8),("Name",)].head())
+
+# Exercise №5: Извлеките все строки со штатом "NJ". Вне зависимости от значений уровней Status и Funding Round
+print(investments.xs(key = "NJ", level = "State").head())
 ```

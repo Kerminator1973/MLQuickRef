@@ -48,3 +48,21 @@ sales.pivot_table(index = "Date")
 ```py
 sales.pivot_table(index = "Date", aggfunc = "mean")
 ```
+
+Мы можем указать только один столбец, по которому следует выполнять агрегацию. НАпример, мы можем суммировать данные только по полю "Revenue":
+
+```py
+sales.pivot_table(index = "Date", values = "Revenue", aggfunc = "sum")
+```
+
+Pandas позволяет выполнять разные операции агрерации над разными полями:
+
+```py
+sales.pivot_table(
+    index = "Date",
+    columns = "Name",
+    values = ["Revenue", "Expenses"],
+    fill_value = 0,
+    aggfunc = {"Revenue": "min", "Expenses": "max"}
+)
+```

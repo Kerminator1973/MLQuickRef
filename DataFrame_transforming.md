@@ -103,3 +103,15 @@ by_name_and_date.stack().head(7)
 ```py
 video_games_sales.melt(id_vars = "Name", value_vars = "NA").head()
 ```
+
+Один из типовых примеров обработки данных:
+
+- Сначала разобрать строку отдельной ячейки, в которой перечисляются элементы
+- Затем развернуть значения из списка в несколько строк
+
+Сделать это можно, приблизительно, следующим образом:
+
+```py
+recipes["ingredients"] = recipes["ingredients"].str.split(",")
+recipes.explode("ingredients")
+```

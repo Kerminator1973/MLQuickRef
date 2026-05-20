@@ -366,3 +366,88 @@ print(investments.head())
 investments = investments.reset_index()
 print(investments.head())
 ```
+
+## Упражнения из главы 8
+
+В восьмой главе мы работаем с файлами "used_cars.csv" и "minimum_wage.csv".
+
+Подготовительный этап:
+
+```py
+import pandas as pd
+
+cars = pd.read_csv('used_cars.csv')
+print(cars.head())
+
+cars = pd.read_csv('minimum_wage.csv')
+print(cars.head())
+```
+
+На выходе получаем данные о структуре данных:
+
+```
+  Manufacturer  Year Fuel Transmission  Price
+0        Acura  2012  Gas    Automatic  10299
+1       Jaguar  2011  Gas    Automatic   9500
+2        Honda  2004  Gas    Automatic   3995
+3    Chevrolet  2016  Gas    Automatic  41988
+4          Kia  2015  Gas    Automatic  12995
+```
+
+```
+        State  2010  2011  2012  2013  2014  2015   2016   2017
+0     Alabama  0.00  0.00  0.00  0.00  0.00  0.00   0.00   0.00
+1      Alaska  8.90  8.63  8.45  8.33  8.20  9.24  10.17  10.01
+2     Arizona  8.33  8.18  8.34  8.38  8.36  8.50   8.40  10.22
+3    Arkansas  7.18  6.96  6.82  6.72  6.61  7.92   8.35   8.68
+4  California  9.19  8.91  8.72  8.60  9.52  9.51  10.43  10.22
+```
+
+Задача: агрегируйсте сумму цен машин в cars. Сгруппируйте результаты по типу топлива по оси строк.
+
+Я своём решении я забыл указать параметр "values" и это привело к исключительно долгой работе. Правильное решение:
+
+```py
+cars_by_fuel_type = cars.pivot_table(values="Price", index = "Fuel", aggfunc = "sum")
+print(cars_by_fuel_type.head())
+```
+
+Т.е. в параметре index мы указываем по какому полю осуществляется группировка, в values - откуда брать значения для агрегации, а aggfunc - какую функцию агрегации следует использовать.
+
+Задача №2: агрегируйте количество машин в cars. Сгруппируйте результаты по производителью на оси строк и типу коробки передач на оси столбцов.
+
+Просто подсчёт количества по производителю выглядит следующим образом:
+
+```py
+cars_count = cars.pivot_table(values="Price", index = "Manufacturer", aggfunc = "count")
+```
+
+Но нужно ещё выполнить условие "и типу коробки передач на оси столбцов". Чтобы создать дополнительные колонки по каждому типу трансмиссий, следует добавить параметр "columns"
+
+```py
+cars_count = cars.pivot_table(values="Price", index = "Manufacturer", aggfunc = "count", columns="Transmission")
+```
+
+И это даёт вот такой результат:
+
+```
+Transmission  Automatic  Manual  Other
+Manufacturer  
+Acura            3443.0   141.0   48.0
+Alfa-Romeo         50.0     NaN   11.0
+Aston-Martin       20.0     5.0    NaN
+Audi             4974.0   375.0   69.0
+BMW             11641.0   774.0  627.0
+```
+
+Если же добавить параметр `margins=True`, то будет добавлена ещё одна колонка - общая сумма по всем типам трансмиссии:
+
+```
+Transmission  Automatic  Manual  Other    All
+Manufacturer                                 
+Acura            3443.0   141.0   48.0   3632
+Alfa-Romeo         50.0     NaN   11.0     61
+Aston-Martin       20.0     5.0    NaN     25
+Audi             4974.0   375.0   69.0   5418
+BMW             11641.0   774.0  627.0  13042
+```

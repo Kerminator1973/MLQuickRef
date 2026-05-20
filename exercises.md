@@ -468,6 +468,94 @@ cars_mean = cars.pivot_table(values="Price", index = ["Year", "Fuel"], columns="
 print(cars_mean)
 ```
 
+Результат:
+
+```
+Transmission      Automatic        Manual         Other
+Year Fuel                                              
+2000 Diesel    11326.176962  14010.164021  11075.000000
+     Electric   1500.000000           NaN           NaN
+     Gas        4314.675996   6226.140327   3203.538462
+     Hybrid     2600.000000   2400.000000           NaN
+     Other     16014.918919  11361.952381  12984.642857
+```
+
 Моё решение соответствует решению из книги. Однако следует обратить внимание на использование head() - эта функция ограничивает вывод данных в консоль и это может вводить в заблуждение.
 
+Задание №4: в объекте DataFrame из предыдущей задачи перенесите уровень Transmission с оси столбцов на ось строк.
 
+Моё решение:
+
+```py
+cars_mean = cars.pivot_table(values="Price", index = ["Year", "Fuel"], columns="Transmission", aggfunc = "mean").stack()
+print(cars_mean.head())
+```
+
+Решение корректное:
+
+```
+Year  Fuel      Transmission
+2000  Diesel    Automatic       11326.176962
+                Manual          14010.164021
+                Other           11075.000000
+      Electric  Automatic        1500.000000
+                Manual                   NaN
+dtype: float64
+```
+
+Задание №5: преобразуйте объект "min_wage" из широкого формата в узкий. Другими словами, перенесите данные из восьми столбцов годов (с 2010 по 2017 год) в один столбец.
+
+```py
+car_melted=cars.melt(id_vars = "State")
+print(car_melted.head())
+```
+
+Было:
+
+```
+        State  2010  2011  2012  2013  2014  2015   2016   2017
+0     Alabama  0.00  0.00  0.00  0.00  0.00  0.00   0.00   0.00
+1      Alaska  8.90  8.63  8.45  8.33  8.20  9.24  10.17  10.01
+2     Arizona  8.33  8.18  8.34  8.38  8.36  8.50   8.40  10.22
+3    Arkansas  7.18  6.96  6.82  6.72  6.61  7.92   8.35   8.68
+4  California  9.19  8.91  8.72  8.60  9.52  9.51  10.43  10.22
+```
+
+Стало:
+
+```
+        State variable  value
+0     Alabama     2010   0.00
+1      Alaska     2010   8.90
+2     Arizona     2010   8.33
+3    Arkansas     2010   7.18
+4  California     2010   9.19
+```
+
+Решение из книги более точное (я упустил условие указания конкретных годов выборки):
+
+```py
+years_columns=[
+    "2010", "2011", "2012", "2013",
+    "2014", "2015", "2016", "2017"
+]
+car_melted=cars.melt(id_vars = "State", value_vars = years_columns)
+print(car_melted.head())
+```
+
+В книге также есть совет об установке имени колонок:
+
+```py
+car_melted=cars.melt(id_vars = "State", var_name="Year", value_name="Wage")
+```
+
+Результат:
+
+```py
+        State  Year  Wage
+0     Alabama  2010  0.00
+1      Alaska  2010  8.90
+2     Arizona  2010  8.33
+3    Arkansas  2010  7.18
+4  California  2010  9.19
+```

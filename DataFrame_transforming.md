@@ -117,3 +117,36 @@ video_games_sales.melt(id_vars = "Name", value_vars = "NA").head()
 recipes["ingredients"] = recipes["ingredients"].str.split(",")
 recipes.explode("ingredients")
 ```
+
+## Группировка
+
+Предположим, что у нас есть следующие данные:
+
+```py
+food_data = {
+    "Item": ["Banana", "Cucumber", "Orange", "Tomato", "Watermelon"],
+    "Type": ["Fruit", "Vegetable", "Fruit", "Vegetable", "Fruit"],
+    "Price": [0.99, 1.25, 0.25, 0.33, 3.00]
+}
+
+supermarket = pd.DataFrame(data = food_data)
+```
+
+Мы можем выполнить группировку по имени группы, например, по "Type" (овощ, или фрукт):
+
+```py
+groups = supermarket.groupby("Type")
+```
+
+Затем мы можем получить значения (DataFrame) только нужной нам группы:
+
+```py
+groups.get_group("Fruit")
+groups.get_group("Vegetable")
+```
+
+Объект groups удобен сам по себе, т.к. он повзоляет выполнять агрегацию по группам, например:
+
+```py
+groups.mean()
+```

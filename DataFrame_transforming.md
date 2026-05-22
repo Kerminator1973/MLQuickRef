@@ -117,3 +117,66 @@ video_games_sales.melt(id_vars = "Name", value_vars = "NA").head()
 recipes["ingredients"] = recipes["ingredients"].str.split(",")
 recipes.explode("ingredients")
 ```
+
+## Группировка
+
+Предположим, что у нас есть следующие данные:
+
+```py
+food_data = {
+    "Item": ["Banana", "Cucumber", "Orange", "Tomato", "Watermelon"],
+    "Type": ["Fruit", "Vegetable", "Fruit", "Vegetable", "Fruit"],
+    "Price": [0.99, 1.25, 0.25, 0.33, 3.00]
+}
+
+supermarket = pd.DataFrame(data = food_data)
+```
+
+Мы можем выполнить группировку по имени группы, например, по "Type" (овощ, или фрукт):
+
+```py
+groups = supermarket.groupby("Type")
+```
+
+Затем мы можем получить значения (DataFrame) только нужной нам группы:
+
+```py
+groups.get_group("Fruit")
+groups.get_group("Vegetable")
+```
+
+Объект groups удобен сам по себе, т.к. он повзоляет выполнять агрегацию по группам, например:
+
+```py
+groups.mean()
+```
+
+### Атрибуты и методы объекта GroupBy
+
+После того, как группы сформированы, мы можем получить DataFrame, в котором будет по одной, первой записи из каждой группы:
+
+```py
+sectors.first()
+```
+
+Или по последней записи:
+
+```py
+sectors.last()
+```
+
+Сходим образом работают методы head() и tail(), которые извлекают из каждой группы по несколько записей из начала, или конца группы.
+
+Можно извлечть элемент с определённым индексом в каждой из групп:
+
+```py
+sectors.nth(2)
+```
+
+Почитать количество групп в sectors можно командой: `len(sectors)`
+
+Метод size() возвращет Series со списком групп и количеством записей в каждой из низ:
+
+```py
+sectors.size()
+```

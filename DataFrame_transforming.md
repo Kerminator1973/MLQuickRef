@@ -180,3 +180,41 @@ sectors.nth(2)
 ```py
 sectors.size()
 ```
+
+## Агрегатные операции
+
+Объект GrouBy позволяет применять агрегатные операции к каждой группе. Доступны такие методы как: sum, mean, min, max, и т.д. Пример:
+
+```py
+sectors.sum().head(10)
+```
+
+Мы можем выполнять несколько агрегатных операций одновременно, например:
+
+```py
+aggregations = {
+    "Revenues": "min",
+    "Profits": "max",
+    "Employees": "meam"
+}
+
+sectors.agg(aggregations).head()
+```
+
+Мы можем применять свою собственную функцию агрегации для каждой группы, например:
+
+```py
+def get_largest_row(df):
+    return df.nlargest(1, "Revenues")
+
+sectors.apply(get_largest_row).head()
+```
+
+Рекомендуется использовать метод apply() в случаях, когда pandas не поддерживает нужную агрегатную операции.
+
+Pandas предоставляет возможность выполнять группироваку по нескольком столбцам, например:
+
+```py
+sector_and_industry = fottune.groupby(by = ["Sector", "Industry"])
+sector_and_industry.size()
+```

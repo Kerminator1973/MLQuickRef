@@ -559,3 +559,57 @@ car_melted=cars.melt(id_vars = "State", var_name="Year", value_name="Wage")
 3    Arkansas  2010  7.18
 4  California  2010  9.19
 ```
+
+## Упражнения из главы 9
+
+В восьмой главе мы работаем с файлов "cereals.csv".
+
+Мой стартовый код:
+
+```py
+import pandas as pd
+
+cereals = pd.read_csv('cereals.csv')
+print(cereals.head())
+```
+
+Задача №1-2: Сгруппируйте завтраки по значениям в столбце Manufacturer. Определите общее количество групп и завтраков в каждой группе.
+
+Моё решение:
+
+```py
+import pandas as pd
+
+cereals = pd.read_csv('cereals.csv')
+#print(cereals.head())
+
+groups = cereals.groupby("Manufacturer")
+
+# Задания №1 и 2 - группировка по производителю, количество групп и завтраков
+print(groups.size())
+```
+
+Решение верное.
+
+Задача №3: извлеките список завтраков, выпускаемых производителем Nabisco.
+
+```py
+print(groups.get_group("Nabisco"))
+```
+
+Задача №4: Вычислите средние значения по столбцам Calories, Fiber и Sugars для каждого производителя.
+
+Моё решение:
+
+```py
+aggregations = {
+    "Calories": "mean",
+    "Fiber": "mean",
+    "Sugars": "mean"
+}
+
+print(groups.agg(aggregations))
+```
+
+Решение автора книги: `manufacturers.mean()`
+

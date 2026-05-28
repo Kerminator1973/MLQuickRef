@@ -145,7 +145,7 @@ groups.get_group("Fruit")
 groups.get_group("Vegetable")
 ```
 
-Объект groups удобен сам по себе, т.к. он повзоляет выполнять агрегацию по группам, например:
+Объект groups удобен сам по себе, т.к. он позволяет выполнять агрегацию по группам, например:
 
 ```py
 groups.mean()
@@ -195,7 +195,7 @@ sectors.sum().head(10)
 aggregations = {
     "Revenues": "min",
     "Profits": "max",
-    "Employees": "meam"
+    "Employees": "mean"
 }
 
 sectors.agg(aggregations).head()

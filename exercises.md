@@ -613,3 +613,32 @@ print(groups.agg(aggregations))
 
 Решение автора книги: `manufacturers.mean()`
 
+Задача №5: Найдите максимальнок значение в стоблце Sugars для каждого производителя
+Задача №6: Найдите минимальное значение в столбце Fiber для каждого производителя
+
+Я объединил задания 5 и 6 в одном блоке кода:
+
+```py
+aggregations = {
+    "Sugars": "max",
+    "Fiber": "min"
+}
+
+print(groups.agg(aggregations))
+```
+
+Решение корректное.
+
+Задача №7: Найдите завтраки с наименьших количеством сахара по производителям и верните их в виде нового DataFrame
+
+Моё решение:
+
+```py
+def get_smallest_row(df):
+    return df.nsmallest(1, "Sugars")
+
+new_df = groups.apply(get_smallest_row)
+print(new_df)
+```
+
+Решение верное.

@@ -210,11 +210,11 @@ def get_largest_row(df):
 sectors.apply(get_largest_row).head()
 ```
 
-Рекомендуется использовать метод apply() в случаях, когда pandas не поддерживает нужную агрегатную операции.
+Рекомендуется использовать метод apply() в случаях, когда pandas не поддерживает нужную агрегатную операцию.
 
-Pandas предоставляет возможность выполнять группироваку по нескольком столбцам, например:
+Pandas предоставляет возможность выполнять группировку по нескольким столбцам, например:
 
 ```py
-sector_and_industry = fottune.groupby(by = ["Sector", "Industry"])
+sector_and_industry = fortune.groupby(by = ["Sector", "Industry"])
 sector_and_industry.size()
 ```

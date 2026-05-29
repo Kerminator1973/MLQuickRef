@@ -583,3 +583,27 @@ npm error Require stack:
 Для анализа файлов на диске необходимо явным образом указать папки и предоставить права доступа к ним.
 
 Система работает и даёт разумные предложения по модификации кода. Однако размер контекста очень быстро доходит до десятков тысяч токенов. Если не настроить размер данных, то часть контекста запроса может быть утеряна.
+
+## Пример структуры промпта
+
+Gemma 4 сгенерировала мне следующий пример промпта для запроса на улучшение качества кода:
+
+```prompt
+[SETUP: Acknowledge the files here]
+I have provided several files (the attached project) that handle [DESCRIBE FUNCTIONALITY]. The code currently works, but I suspect it is inefficient and lacks modern best practices.
+
+[GOAL: State the area of improvement]
+My primary goals are: 
+1. Improve performance/speed.
+2. Increase readability and maintainability.
+3. Add specific feature: [IF THERE IS A NEW FEATURE, LIST IT].
+
+[TASK: Define the analysis steps]
+Please act as a Senior Software Architect. Review all files and provide the following:
+1. **Key Areas for Improvement:** Identify 3-5 specific places in the code that are inefficient (e.g., redundant database queries, nested loops, poor variable naming).
+2. **Refactored Code:** Provide a fully refactored version of the files. Do not just fix the problems; show me how to make the *whole system* cleaner.
+3. **Explanation:** For each major change you made, explain *why* it is an improvement (e.g., "I replaced the try/catch block with a dedicated result object to improve type safety.").
+
+[CONSTRAINTS: Guide the AI's output]
+Use separate code blocks for the suggested refactoring. Keep the explanation concise but highly technical.
+```

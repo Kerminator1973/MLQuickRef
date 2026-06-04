@@ -629,7 +629,7 @@ print(groups.agg(aggregations))
 
 Решение корректное.
 
-Задача №7: Найдите завтраки с наименьших количеством сахара по производителям и верните их в виде нового DataFrame
+Задача №7: Найдите завтраки с наименьшим количеством сахара по производителям и верните их в виде нового DataFrame
 
 Моё решение:
 
@@ -655,3 +655,78 @@ import pandas as pd
 week_1_sales = pd.read_csv('week_1_sales.csv')
 week_2_sales = pd.read_csv('week_2_sales.csv')
 ```
+
+Обе таблиц содержат внешние ключи ссылающиеся на значения в столбца ID таблицы "customers.csv". Т.е. ещё нам потребуется таблица с клиентами. И ещё нам потребуется таблица "foods.csv". Эти две таблицы загружаются с указанием индексной колонки:
+
+```py
+customers = pd.read_csv('customers.csv', index_col='ID')
+food = pd.read_csv('foods.csv', index_col='Food ID')
+```
+
+Это был стартовый setup.
+
+**Задача №1**: Объедините данные о продажах за две недели в один DataFrame. Назначьте данных из набора week1 ключ "Week 1", а данными из набора week2 - ключ "Week 2".
+
+Моё верное решение:
+
+```py
+week_1_sales = pd.read_csv('week_1_sales.csv')
+week_2_sales = pd.read_csv('week_2_sales.csv')
+
+#print(week_1_sales.info())
+#print(week_2_sales.info())
+
+sales = pd.concat(objs = [week_1_sales, week_2_sales], keys = ["Week 1", "Week 2"])
+print(sales.head())
+```
+
+**Задача №2**: Найдите клиентов, которые посещали ресторан на каждой из рассматриваемых недель.
+
+К своему стыду я не понял задачу так, как её видит автор книги и, соответственно, не решил. Реальный смысл задачи такой: найти тех клиентов, которые есть в обоих таблицах, т.е. нужно использовать inner join для таблиц "week_1_sales" и "week_2_sales".
+
+```py
+every_week = week_1_sales.merge(right = week_2_sales, how = "inner", on = "Customer ID"
+                                ).drop_duplicates(subset=["Customer ID"])
+print(every_week)
+```
+
+Ключевой момент состоит в том, что для удаления дубликатов используется функция drop_duplicates().
+
+**Задача №3**: Найдите клиентов, который посещали ресторан на каждой рассматриваемой неделе и каждую неделю заказывали одно и то же блюдо/
+
+Моё правильное решение:
+
+```py
+every_week = week_1_sales.merge(right = week_2_sales, how = "inner", on = ["Customer ID", "Food ID"])
+print(every_week)
+```
+
+Связывание осуществляется не по одному, а по двум полям.
+
+**Задача №4**: Найдите клиентов, посещавших ресторан только на первой неделе и только на второй неделе.
+
+Я догадался, что следует использовать внешнее соединение (outer join), но не помню, чтобы в книге этот тип соединения указывался.
+
+Для работы с join-ами использовал [прекрасную иллюстрацию для SQL](https://www.finitewisdom.com/blogs/joshua-golub/2021/6/19/sql-joins).
+
+Решение задачи:
+
+```py
+just_one_week = week_1_sales.merge(right = week_2_sales, how = "outer", on = "Customer ID", indicator = True)
+print(just_one_week)
+```
+
+Параметр **indicator** указывает на необходимость добавить поле, в котором указывается откуда мы взяли запись - из левой, или правой таблицы.
+
+**Задача №5**: Каждая строка в наборе данных week1 идентифицирует клиента, заказавшего блюдо. Для каждой строки в week1 извлеките информацию о клиенте из набора данных customer
+
+Решение из книги:
+
+```py
+customers = pd.read_csv('customers.csv', index_col='ID')
+
+with_customers_data = week_1_sales.merge(right=customers, how="left", left_on="Customer ID", right_index=True)
+print(with_customers_data.head())
+```
+
+К сожалению, и в этом упражнении мне не хватило глубины знаний. Конкретно при использовании left join, нужно указывать не параметр `on`, а `left_on`.

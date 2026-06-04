@@ -70,8 +70,19 @@ groups.merge(categories, how = "left", on = "category_id")
 Внутренее соединение определяет общие элементы в обоих наборах данных, и результаты будут одинаковыми в любом случае. Пример вызова merge():
 
 ```py
-groups.merge(categories, how = "inner", on = "category_id")
+groups.merge(right = categories, how = "inner", on = "category_id")
 ```
+
+В приведённом выше примере, мы связываем DataFrame **groups** c DataFrame **categories**. 
+
+На практических занятиях мне потребовалось указать имя второго DataFrame в параметре `right`:
+
+```py
+every_week = week_1_sales.merge(right = week_2_sales, how = "inner", on = "Customer ID"
+                                ).drop_duplicates(subset=["Customer ID"])
+```
+
+Метод `drop_duplicates()` исключает дубликаты.
 
 ## Внешние соединения
 

@@ -562,7 +562,7 @@ car_melted=cars.melt(id_vars = "State", var_name="Year", value_name="Wage")
 
 ## Упражнения из главы 9
 
-В восьмой главе мы работаем с файлов "cereals.csv".
+В девятой главе мы работаем с файлом "cereals.csv".
 
 Мой стартовый код:
 
@@ -642,3 +642,16 @@ print(new_df)
 ```
 
 Решение верное.
+
+## Упражнения из главы 10
+
+В десятой главе мы работаем с файлами "week_1_sales.csv" и "week_2_sales.csv".
+
+Мой стартовый код:
+
+```py
+import pandas as pd
+
+week_1_sales = pd.read_csv('week_1_sales.csv')
+week_2_sales = pd.read_csv('week_2_sales.csv')
+```

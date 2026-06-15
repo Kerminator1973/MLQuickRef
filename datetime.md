@@ -46,4 +46,42 @@ pd.Timestamp("03/31/2015")
 pd.Timestamp("2021-03-08 8:35:15")
 ```
 
-### Хранение нескольких отметов времени в DatetimeIndex
+### Хранение нескольких отметок времени в DatetimeIndex
+
+Получить доступ к индексу Series или DataFrame можно через атрибут **index**. Например:
+
+```python
+pd.Series([1,2,3]).index
+```
+
+**DatatimeIndex** - это индекс, хранящий объекты **Timestamp**. Присоединить индекс с отметками времени к данным можно следующий образом:
+
+```py
+timestamps = [
+    pd.Timestamp("2020-01-01"),
+    pd.Timestamp("2020-02-01"),
+    pd.Timestamp("2020-03-01")
+]
+pd.Series([1,2,3], index = timestamps).index
+```
+
+Для сортировки содержимого структуры по индексу DatatimeIndex можно использовать метод sort_index:
+
+```py
+s.sort_index()
+```
+
+Для Timestamp поддерживаются различные операции сортировки и сравнения.
+
+При считывании данных из CSV-файла, мы можем явным образом указывать, какое поле содержит время:
+
+```py
+disney = pd.read_csv("disney.csv", parse_dates = ["Date"])
+```
+
+Явное преобразование даты из строчного представления в DatatimeStamp может выглядеть так:
+
+```py
+disney["Date"] = pd.to_datetime(disney["Date"])
+```
+

@@ -103,3 +103,32 @@ disney["Date"].dt.month
 ```
 
 В приведённом выше примре, дата и время будут округлены до конца месяца.
+
+## Timedelta
+
+Объект timedelta моделирует временные интервалы - количество времени, отделяющее два момента.
+
+Pandas работает с интервалами посредством собственного класса Timedelta. Следует заметить, что класс timedelta из Python и Timedelta из Pandas взаимозаменияемые при использовании с операциями pandas.
+
+Создание объекта:
+
+```py
+duration = pd.Timedelta(
+    days = 8,
+    hours = 7,
+    minutes = 6,
+)
+```
+
+Выполнить инициализацию объекта можно даже таким образом:
+
+```py
+duration = pd.to_timedelta("3 hours, 5 minutes, 12 seconds")
+duration = pd.to_timedelta(5, unit = "hour")
+```
+
+Пример вычисления Timedelta:
+
+```py
+(deliveries["delivery_date"] - deliveries["order_date"]).head()
+```

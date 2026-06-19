@@ -132,3 +132,17 @@ duration = pd.to_timedelta(5, unit = "hour")
 ```py
 (deliveries["delivery_date"] - deliveries["order_date"]).head()
 ```
+
+К последовательностям Series объектов Timedelta можно также применять математические методы. Три примера:
+
+```py
+deliveries["duration"].max()
+deliveries["duration"].min()
+deliveries["duration"].mean()
+```
+
+В операции сравнения можно использовать любую деталиацию продолжительности, перечисляя единицы измерения через запятую:
+
+```py
+deliveries["duration"] > "2000 days, 8 hours, 4 minutes"
+```

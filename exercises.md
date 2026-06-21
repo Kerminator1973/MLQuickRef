@@ -740,3 +740,53 @@ print(with_customers_data.head())
 ```
 
 К сожалению, и в этом упражнении мне не хватило глубины знаний. Конкретно при использовании left join, нужно указывать не параметр `on`, а `left_on`.
+
+## Упражнения из главы 11
+
+В одинадцатой главе мы работаем с файлом "citibike.csv".
+
+Мой стартовый код:
+
+```py
+import pandas as pd
+
+citi_bikes = pd.read_csv('citibike.csv')
+print(citi_bikes.head())
+```
+
+### Задача 1: преобразуйте строковые значения в столбцах start_time и stop_time в значения типа Timestamp.
+
+Моё решение:
+
+```py
+citi_bikes["start_time"] = pd.to_datetime(citi_bikes["start_time"])
+citi_bikes["stop_time"] = pd.to_datetime(citi_bikes["stop_time"])
+print(citi_bikes.info())
+```
+
+Решение из книги чуть более оптимизировано:
+
+```py
+for column in ["start_time", "stop_time"]:
+    citi_bikes[column] = pd.to_datetime(citi_bikes[column])
+```
+
+### Задача 2: Подсчитайте количество поездок, совершаемых по дням недели (понедельник, вторник и т.д.). В какой будний день совершается больше всего велосипедных поездок? Используйте столбец start_time в качестве отправной точки
+
+Для моего кода важно, что формат полей start_time и stop_time уже был датой/временем, а не строкой. См. первую задачу.
+
+Моё решение:
+
+```py
+citi_bikes["day_of_week"] = citi_bikes["start_time"].dt.dayofweek
+groups = citi_bikes.groupby("day_of_week")
+print(groups.count())
+```
+
+Решение из книги:
+
+```py
+citi_bikes["start_time"].dt.day_name().value_counts()
+```
+
+Опять же, решение из книги лаконичнее, но моё тоже правильное.

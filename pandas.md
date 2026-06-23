@@ -907,5 +907,26 @@ nodel = pd.read_json("nobel.json")
 
 ```py
 pd.json_normalize(data = chemistry_2019)
+```
+
+Однако при простой нормализации может быть потеряна критически важная информация об узлах. Чтобы включить максимум информации из json-файла, необходимо указывать, какие узловые значения нужно выключать в результирующий файл:
+
+```py
 pd.json_normalize(data = chemistry_2019, record_path = "laureates")
+```
+
+```py
+pd.json_normalize(
+    data = chemistry_2019, 
+    record_path = "laureates"
+    meta = ["year", "category"])
+```
+
+Однако не всегда все необходимые поля могут быть заполнены и для предотвращения потери данных, используются трюк с установкой "значений по умолчанию":
+
+```py
+def add_laureates_key(entry):
+    entry.setdefault("laureates": [])
+
+nobel["prizes"].apply(add_laureates_key)
 ```

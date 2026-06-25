@@ -957,13 +957,64 @@ winners.to_json("winners.json", orient = "records")
 baby_names.head(10).to_csv(index = False)
 ```
 
-## Экспорт данных в Excel
+## Импорт данных из Excel
 
-Для экспорта данных в Excel необходимы библиотеки **xlrd** и **openpyxl**.
+Для импорта данных из Excel необходимы библиотеки **xlrd** и **openpyxl**.
 
 Установить библиотеки можно используя Anaconda:
 
 - Следует запустить Terminal (в macOS), или Anaconda Prompt (в Windows)
-- Выполить команду `conda info --envs`, чтоыб посмотреть доступное окружение Anaconda
+- Выполнить команду `conda info --envs`, чтоыб посмотреть доступное окружение Anaconda
 - Активировать необходимое окружение. Например: `conda activate pandas_in_action`
 - Установить библиотеки: `conda install xlrd openpyxl`
+
+Для импорта книг Excel используется функция read_excel(). Первый параметр - путь к книге:
+
+```py
+pd.read_excel("Single Worksheet.xlsx")
+```
+
+Загрузить конкретный лист из книги можно используя параметр **sheet_name**:
+
+```py
+pd.read_excel("Multiple Worksheet.xlsx", sheet_name = "Data 1")
+```
+
+Чтобы импортировать все листы, следует передать в параметре sheet_name значение `None`.
+
+Для доступа к конкретному листу из числа загруженных, следует использоваать его индекс. Например:
+
+```py
+workbook["Data 2"]
+```
+
+### Экспорт книг Excel
+
+Для экспорта книг Excel используется объект **ExcelWriter**. Сначала нужно подготовить файл для записи. Первый параметр - имя сохраняемого файла:
+
+```py
+excel_file = pd.ExcelWriter("Baby_Names.xlsx")
+```
+
+Можно также указать имя листа в файле и отключить сохранение индексов:
+
+```py
+excel_file = pd.ExcelWriter("Baby_Names.xlsx", sheet_name = "Girls", index = False)
+```
+
+Подготовка данных к записи осуществляется методом **to_excel**():
+
+```py
+boys.to_excel(
+    excel_file,
+    sheet_name = "Boys",
+    index = False,
+    columns = ["Child's First Name", "Count", "Rank"]
+)
+```
+
+Непосредственная запись осуществляется с помощью метода save():
+
+```py
+excel_file.save()
+```

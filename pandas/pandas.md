@@ -900,8 +900,15 @@ JSON = _JavaScript Object Notation_. JSON относится к контейне
 Пример загрузки json-файла:
 
 ```py
-nodel = pd.read_json("nobel.json")
+nobel = pd.read_json("nobel.json")
 ```
+
+>Возможно, что вариант из книги устаревший, т.к. в моём случае он вернут DataFrame, а не dict, т.е. read_json() сразу сделал нормализацию, но совсем не так, как было нужно мне. Сработавший у меня код выглядит так:
+>
+>```py
+>with open("tv_shows.json", "r", encoding="utf-8") as f:
+>    tv_shows_json = json.load(f)
+>```
 
 Для преобразования в плоскую последовательность используется метод **json_normalize**(). Пример:
 
@@ -929,6 +936,50 @@ def add_laureates_key(entry):
     entry.setdefault("laureates": [])
 
 nobel["prizes"].apply(add_laureates_key)
+```
+
+Также следует заменить, что иерархия может быть многоуровневой, например:
+
+```json
+{
+  "shows": [
+    {
+      "show": "The X-Files",
+      "runtime": 60,
+      "network": "FOX",
+      "episodes": [
+        {
+          "season": 1,
+          "episode": 1,
+          "name": "Pilot",
+          "air_date": "1993-09-11 01:00:00"
+        },
+        {
+          "season": 1,
+          "episode": 2,
+          "name": "Deep Throat",
+          "air_date": "1993-09-18 01:00:00"
+        },
+```
+
+В подобной случае, может потребоваться явным образом указать все уровня вложенности:
+
+```py
+normalized_df = pd.json_normalize(
+    tv_shows_json,
+    record_path = ["shows", "episodes"],
+    meta = [
+        ["shows", "show"],
+        ["shows", "runtime"],
+        ["shows", "network"]
+    ]
+)
+```
+
+Если нам нужно опуститься по иерархии всего на одну позицию, то сделать это можно изменив первый параметр:
+
+```py
+data = tv_shows_json["shows"],
 ```
 
 ## Экспорт данных в JSON

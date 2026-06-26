@@ -829,3 +829,114 @@ print(citi_bikes["duration"].sort_values(ascending = False).head())
 ```py
 citi_bikes.nlargest(n = 5, columns = "duration")
 ```
+
+## Упражнения из главы 12
+
+В двенадцатой главе мы работаем с файлом "tv_shows.json".
+
+Стартовый сеттинг:
+
+
+```py
+import pandas as pd
+
+tv_shows_json = pd.read_json('tv_shows.json')
+print(tv_shows_json)
+```
+
+Задача №1: Нормализуйте данные в каждом словаре в столбце "shows". В результате должен получиться DataFrame, в котором каждая серия хранится в отдельной записи. Каждая запись должна включать соответствующие метаданные серии (season, episode, name и air_date), а также информацию верхнего уровня о сериале (show, runtime и network).
+
+Первая проблема - pd.read_json() возвращает DataFrame, а не dict - попытка нормализации данных провалится:
+
+```py
+tv_shows_json = pd.read_json('tv_shows.json')
+print(type(tv_shows_json))
+```
+
+В результате будет получено сообщение:
+
+```
+norm = pd.json_normalize(tv_shows_json)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\kermi\miniconda3\envs\Test\Lib\site-packages\pandas\io\json\_normalize.py", line 542, in json_normalize
+raise TypeError(msg)
+TypeError: All items in data must be of type dict, found str
+```
+
+Структура json-документа следующая:
+
+```json
+{
+  "shows": [
+    {
+      "show": "The X-Files",
+      "runtime": 60,
+      "network": "FOX",
+      "episodes": [
+        {
+          "season": 1,
+          "episode": 1,
+          "name": "Pilot",
+          "air_date": "1993-09-11 01:00:00"
+        },
+        {
+          "season": 1,
+          "episode": 2,
+          "name": "Deep Throat",
+          "air_date": "1993-09-18 01:00:00"
+        },
+```
+
+Моё решение задачи:
+
+```py
+import json
+import pandas as pd
+
+with open("tv_shows.json", "r", encoding="utf-8") as f:
+    tv_shows_json = json.load(f)
+
+    print(type(tv_shows_json))
+
+    normalized_df = pd.json_normalize(
+        tv_shows_json,
+        record_path = ["shows", "episodes"],
+        meta = [
+            ["shows", "show"],
+            ["shows", "runtime"],
+            ["shows", "network"]
+        ]
+    )
+
+    print(normalized_df)
+```
+
+Поскольку уровней вложенности несколько, я в своём коде явным образом указал все соответствующие уровни вложенности, как для "record_path", так и для "meta".
+
+Стоит заметить, что вариант загрузки json из книги не сработал. Возможно, что изменился API класса. Вот, что не получилось:
+
+```py
+#tv_shows_json = pd.read_json('tv_shows.json')
+```
+
+Вариант, который работает в моём коде выглядит так:
+
+```py
+with open("tv_shows.json", "r", encoding="utf-8") as f:
+    tv_shows_json = json.load(f)
+```
+
+Вариант нормализации из книги более компактный, но мой вариант - более универсальный. Вариант из книги вот такой:
+
+```py
+normalized_df = pd.json_normalize(
+    data = tv_shows_json["shows"],
+    record_path = "episodes",
+    meta=["show", "runtime", "network"])
+```
+
+
+Задача №2: разбейте нормализованный набор данных на три DataFrame, по одному для каждого сериала ("Секретные материалы", "Lost" и "Баффи победительница вампиров").
+
+
+Задача №3: сохраните три DataFrame в книгу Excel episodes.xsls, каждый в своём листе (имена листов выберите по своему вкусу).

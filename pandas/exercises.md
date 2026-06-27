@@ -959,6 +959,64 @@ xfiles_movies = normalized_df[normalized_df["show"] == "The X-Files"]
 print(xfiles_movies)
 ```
 
-OK. Моё решение оказалось корректным.
+OK. Моё решение оказалось корректным, однако нужно было сформировать все три DataFrames, поскольку они требуются в следующем задании. Т.е. второе задание, скорее не на проверку усвоенных знаний, а подготовительное к более сложному третьему.
 
 ### Задача №3: сохраните три DataFrame в книгу Excel episodes.xsls, каждый в своём листе (имена листов выберите по своему вкусу).
+
+Сначала проверил активное окружение, командой `conda info --envs`:
+
+```
+# conda environments:
+#
+# * -> active
+# + -> frozen
+base                     C:\Users\kermi\miniconda3
+HistoProject             C:\Users\kermi\miniconda3\envs\HistoProject
+ImageProcessing          C:\Users\kermi\miniconda3\envs\ImageProcessing
+OCRTesseract             C:\Users\kermi\miniconda3\envs\OCRTesseract
+Test                 *   C:\Users\kermi\miniconda3\envs\Test
+```
+
+Как будто-то бы всё прекрасно.
+
+Далее устанавливаю дополнительные пакеты, которые необходимы для выполнения задачи:
+
+```py
+conda install xlrd openpyxl
+```
+
+Моё решение:
+
+```py
+xfiles_movies = normalized_df[normalized_df["show"] == "The X-Files"]
+buffy_movies = normalized_df[normalized_df["show"] == "Buffy the Vampire Slayer"]
+lost_movies = normalized_df[normalized_df["show"] == "Lost"]
+
+#print(xfiles_movies.head())
+#print(buffy_movies.head())
+#print(lost_movies.head())
+
+excel_file = pd.ExcelWriter("episodes.xlsx")
+
+xfiles_movies.to_excel(
+    excel_file,
+    sheet_name = "The X-files",
+    index = False
+)
+
+buffy_movies.to_excel(
+    excel_file,
+    sheet_name = "Buffy the Vampire Slayer",
+    index = False
+)
+
+lost_movies.to_excel(
+    excel_file,
+    sheet_name = "Lost",
+    index = False
+)
+
+excel_file.close()
+```
+
+Моё решение оказалось верным. Отлично!

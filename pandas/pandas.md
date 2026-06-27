@@ -1039,7 +1039,7 @@ pd.read_excel("Multiple Worksheet.xlsx", sheet_name = "Data 1")
 workbook["Data 2"]
 ```
 
-### Экспорт книг Excel
+### Экспорт книг в Excel
 
 Для экспорта книг Excel используется объект **ExcelWriter**. Сначала нужно подготовить файл для записи. Первый параметр - имя сохраняемого файла:
 
@@ -1067,5 +1067,12 @@ boys.to_excel(
 Непосредственная запись осуществляется с помощью метода save():
 
 ```py
-excel_file.save()
+excel_file.close()
+```
+
+Более аккуратно это можно сделать используя оператор with:
+
+```python
+with pd.ExcelWriter("episodes.xlsx") as excel_file:
+    df.to_excel(excel_file, index=False, sheet_name="Episodes")
 ```

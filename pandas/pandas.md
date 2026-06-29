@@ -1076,3 +1076,25 @@ excel_file.close()
 with pd.ExcelWriter("episodes.xlsx") as excel_file:
     df.to_excel(excel_file, index=False, sheet_name="Episodes")
 ```
+
+## Настройка Pandas
+
+У Pandas есть целый ряд настроек, связанных с конкретными аспектами работы библиотеки: вывод на экран, округление, и т.д.
+
+Получить описание опции можно вызовом функции describe_option():
+
+```py
+pd.describe_option("display.max_rows")
+```
+
+Посмотреть текущее значение можно командой:
+
+```py
+pd.options.display.max_rows
+```
+
+Изменить значение можно так:
+
+```py
+pd.set_option("display.max_rows", 6)
+```

@@ -38,6 +38,16 @@ Anaconda Navigator — это графический интерфейс поль
 
 Список пакетов в среде: `conda list`
 
+## Полное пересоздание окружения (TODO: ещё не проверил)
+
+```shell
+conda env export -n <имя_окружения> > environment.yml
+conda deactivate
+conda env remove -n <имя_окружения>
+conda env create -f environment.yml
+conda activate <имя_окружения>
+```
+
 ## Загрузка Anaconda
 
 Для загрузки Anaconda необходимо авторизоваться по электронной почте. Можно использовать авторизации на GitHub, Google, или Microsoft.

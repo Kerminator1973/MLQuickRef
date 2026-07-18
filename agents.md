@@ -172,3 +172,24 @@ Do not rewrite code yet—focus on architecture and strategy. Return the result 
 - Если файлов очень много, можно дополнительно указать: "Focus especially on the `src/Core` and `src/Api` folders; ignore generated files and test projects unless they illustrate a problem"
 - Чтобы избежать слишком абстрактных советов, фраза "provide concrete file paths" (как в примерах) сильно повышает полезность ответа
 - Для C#‑проектов полезно напомнить агенту про DI, testing, and EF Core patterns — это снижает риск советов, несовместимых с .NET
+
+## Запрос для поиска Razor-компонентов нуждающихся в улучшении
+
+```
+Act as a senior Blazor developer with deep expertise in client-side Blazor (Blazor WebAssembly) architecture and performance optimization.
+
+I’m working on a Blazor WebAssembly application. Below is a brief description of the app’s domain and some key components I’ve implemented (you can treat this as context; if no specific code is provided, reason about a typical mid‑sized Blazor Wasm app):
+
+[Insert your app description or paste relevant code snippets / component list here.]
+
+Your task: analyze the provided context (or assume a typical Blazor Wasm project structure if nothing is specified) and generate a prioritized list of 5–10 client‑side Blazor components that are most likely to benefit from significant improvements. For each component, provide:
+
+- Component name (e.g., `DashboardWidget`, `OrderList`) or a clear description if the name isn’t known.
+- Primary issue or limitation (e.g., excessive re-renders, large payload size, poor accessibility, tight coupling to services, inefficient state management, lack of virtualization, missing error boundaries, overuse of JS interop, etc.).
+- One concrete improvement idea (1–2 sentences) with a specific technique or pattern (e.g., “Use `Virtualize` for long lists,” “Move heavy logic to a background service,” “Replace direct service calls with a shared state container,” “Add `RenderMode.InteractiveWebAssembly` with proper fallbacks,” “Implement lazy loading for this component,” etc.).
+- Expected impact (e.g., “reduce initial load time by ~30%,” “cut render cycles in half for large datasets,” “improve accessibility score,” “decrease bundle size,” etc.).
+
+Prioritize the list by potential impact on performance, maintainability, and user experience (highest impact first). If you need any additional details about the project (tech stack version, typical data volumes, target browsers, etc.) to make better recommendations, ask 2–3 focused questions at the end.
+
+Do not list generic “best practices” without tying them to specific component types. Focus on tangible, high‑leverage improvements.
+```

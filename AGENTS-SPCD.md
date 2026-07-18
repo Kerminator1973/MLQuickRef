@@ -2,6 +2,24 @@
 
 This guide summarizes high-signal, non-obvious conventions and commands critical for working within the ServicePartners codebase.
 
+## Technological Stack
+
+- C# 12
+- .NET 8
+- ASP.NET Core 8 as a service side
+- Blazor WebAssembly as a client side
+- Entity Framework Core
+- xUnit v3 for Tests
+
+## Project Structure
+
+- `DorsFileStorage` - a server API for accessing files with restricted access rights
+- `SDK` - a client API used to make HTTP requests from the client to the server
+- `ServicePartners` - an ASP.NET Core 8 server application implementing a set of APIs for client access to the database
+- `ServicePartners.Client` - a client application written in Blazor WebAssembly
+- `Shared` - a set of structures and classes exchanged between the client and server. Essentially, this is a DTO
+- `Tests` - a set of unit tests for verifying the functionality of the server application
+
 ## ⚙️ Core Workflow & Command Patterns
 
 *   **Execution Context:** Always execute operations from the repository root containing `ServicePartners.sln`.
@@ -17,6 +35,10 @@ This guide summarizes high-signal, non-obvious conventions and commands critical
 
 *   **Shared Models:** The `Shared.csproj` project is the **canonical source of truth** for all Data Transfer Objects (DTOs) and data models. Agent: If modifying any structure, you *must* change it in the Shared layer first.
 *   **Layered Dependency Flow:** Due to tight dependencies, always consider an operational build/test sequence that follows these foundational layers: `Shared` $\rightarrow$ `SDK` $\rightarrow$ `DorsFileStorage` $\rightarrow$ `ServicePartners.Server` $\rightarrow$ `ServicePartners.Client`.
+
+## Restrictions
+
+* Do not modify files in `migrations/` or auto-generated classes.
 
 ## 🐞 Operational Gotchas & Quirks
 

@@ -84,8 +84,8 @@ CdcPortData.kt — unchanged, already idiomatic.
 
 ## Режимы работы агентов
 
-- Plan - только анализ, безопасно
-- Build - с возможностью внесения изменений. Это довольно опасный инструмент, который требует внимательности
+- **Plan** - только анализ, безопасно
+- **Build** - с возможностью внесения изменений. Это довольно опасный инструмент, который требует внимательности
 
 ## OpenCode
 
@@ -165,49 +165,6 @@ Then, propose 3–5 concrete architectural improvements that would increase main
 
 Do not rewrite code yet—focus on architecture and strategy. Return the result as a numbered list with clear headings for each improvement.
 ```
-
-По проекту SPCD был подготовлен следующий анализ:
-
-```
-Based on the existing multi-layered structure (ServicePartners.sln orchestrating Shared, SDK, DorsFileStorage, ServicePartners.Server, and ServicePartners.Client), here are several architectural improvements focused on increasing maintainability, scalability, and testability within this C#/.NET codebase.
-
-1. Implement Clean/CQRS Architecture for Business Logic
-
-- Problem: The current pattern likely mixes business logic execution with API handling (Controllers/endpoints), leading to fat controllers and poor separation of concerns.
-- Proposed Change: Introduce the Command Query Responsibility Segregation (CQRS) pattern, possibly using a library like MediatR. Controllers should only map HTTP requests into specific Commands or Queries, which are then executed by dedicated handlers without knowing about the HTTP context. This isolates I/O handling from business rules and data fetching queries.
-- Affected Files/Folders: ServicePartners.Server (Controllers), Shared (Interfaces for commands/queries), new dedicated folder: Application/Handlers.
-- Risks/Effort: Medium. Requires updating every Controller to use the "Command Mediator pattern" and introducing a dependency on an additional NuGet package.
-
-2. Standardize Cross-Cutting Concerns with MediatR or an Aspect-Oriented Approach (AOP)
-
-- Problem: Logging, auditing, caching, and validation are likely implemented ad-hoc throughout various services and controllers, making it difficult to maintain consistency across the codebase.
-- Proposed Change: Centralize these concerns using a mediator pattern listener or by implementing an Aspect-Oriented Programming framework (e.g., leveraging interceptors in ASP.NET Core middleware). This ensures that all interactions flow through standardized interception points for non-business logic tasks.
-- Affected Files/Folders: The ASP.NET Core Startup/Program setup files within ServicePartners.Server, and potentially extending the base classes for Controllers.
-- Risks/Effort: Low to Medium. If using built-in framework features (like middleware) or a standard pattern, it's relatively low effort; if it requires complex interception logic, it increases risk.
-
-3. Introduce an Explicit Feature Module Structure (Vertical Slicing)
-
-- Problem: The codebase appears organized by technical layer (Server, Client, Shared), which sometimes leads to unintended cross-layer couplings or difficulty localizing changes for a specific feature (e.g., "User Management").
-- Proposed Change: Adopt a Vertical Slice Architecture grouping all components required for a single business domain or feature together. A "Feature Module" directory would contain its own dedicated models, handlers (CQRS), services, and DTOs, minimizing global changes when adding a new feature like "Invoicing."
-- Affected Files/Folders: The root of ServicePartners.Server (new structure: Features/UserManagement, Features/ProductCatalog). This will significantly reorganize folder structures but improves cohesion.
-- Risks/Effort: Medium to High. This is a major refactoring effort, requiring careful dependency mapping and breaking down existing modules into self-contained units.
-
-4. Formalize Error Handling with Custom Exceptions and Fallbacks
-
-- Problem: Using standard try/catch blocks throughout the business logic is brittle and often catches too much or not enough context. Errors may propagate inconsistently from the data layer (DorsFileStorage) up to the API response layer.
-- Proposed Change: Define a standardized set of custom exception types (e.g., ResourceNotFoundException, BusinessRuleViolationException). Implement a global middleware handler in the server application that intercepts these specific exceptions and maps them uniformly to appropriate HTTP status codes (404, 400, etc.).
-- Affected Files/Folders: ServicePartners.Server startup/middleware configuration files, and an extension within the Shared project for defining custom exception types.
-- Risks/Effort: Low. Highly beneficial and addresses common enterprise pitfalls without major structural overhaul.
-```
-
-На что обращает внимание ИИ (Gemma 4):
-
-- уровень бизнес-логики перемешан с обработкой запросов к API. Контроллер получается слишком "жирным" и, как следствие, разделение ответственности (_separation of concerns_) реализуется очень слабо
-- логирование, кэширование (где Gemma его нашёл!?), аудит и валидация "размазаны" по различным сервисам и контроллерам, что усложняет управление ими
-- кодовая база организована по техническим уровня (клиент/сервер/разделяемые данные), что приводит к межуровневой сцепленности и усложнению в локализации изменений для таких сущностей, как "UserManagement" и "ProductCatalog"
-- обработка исключений не систематизирована, реализована довольно слабо
-
-Как отправная точка - результат можно оценить как хороший.
 
 ### Как лучше использовать эти промпты в OpenCode
 

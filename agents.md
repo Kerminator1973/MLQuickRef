@@ -208,3 +208,10 @@ Based on the existing multi-layered structure (ServicePartners.sln orchestrating
 - обработка исключений не систематизирована, реализована довольно слабо
 
 Как отправная точка - результат можно оценить как хороший.
+
+### Как лучше использовать эти промпты в OpenCode
+
+- Запускайте после /init, чтобы агент уже проиндексировал файлы
+- Если файлов очень много, можно дополнительно указать: "Focus especially on the `src/Core` and `src/Api` folders; ignore generated files and test projects unless they illustrate a problem"
+- Чтобы избежать слишком абстрактных советов, фраза "provide concrete file paths" (как в примерах) сильно повышает полезность ответа
+- Для C#‑проектов полезно напомнить агенту про DI, testing, and EF Core patterns — это снижает риск советов, несовместимых с .NET

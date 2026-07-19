@@ -193,3 +193,87 @@ Prioritize the list by potential impact on performance, maintainability, and use
 
 Do not list generic “best practices” without tying them to specific component types. Focus on tangible, high‑leverage improvements.
 ```
+
+## Skills
+
+В OpenCode skill — это отдельный модуль с инструкциями, который говорит агенту, как решать конкретную категорию задач. Реализуется он через папку с файлом SKILL.md, где YAML‑фронтматер задаёт метаданные, а Markdown — руководство для LLM.
+
+Skills чаще всего размещается в  корне проекта, в папках: `.opencode/skills/<skill-name>/SKILL.md`
+
+Допустим, делаем навык blazor-component-review для ревью Blazor‑компонентов (учитывая, что вы работаете с C# и Blazor).
+
+Сначала создаётся папка для skill-а: `mkdir -p .opencode/skills/blazor-component-review`
+
+Описание skill-а может выглядеть следующим образом:
+
+```markdown
+---
+name: blazor-component-review
+description: Review Blazor components for best practices, performance, and maintainability.
+version: 1.0.0
+author: your-name
+tags:
+  - blazor
+  - csharp
+  - code-review
+triggers:
+  - type: keyword
+    patterns:
+      - "review Blazor component"
+      - "check Blazor component for issues"
+      - "analyze Blazor component quality"
+allowed-tools:
+  - read_file
+  - list_files
+constraints:
+  - Only analyze .razor and .cs files related to components.
+  - Do not modify code; only propose changes.
+---
+
+# Blazor Component Review Skill
+
+## Purpose
+
+This skill is used to review Blazor components (`.razor` and associated `.cs`) for:
+- adherence to Blazor best practices
+- performance concerns (unnecessary renders, large cascading parameters)
+- maintainability (large components, tight coupling, magic strings)
+- testability and separation of concerns
+
+## Workflow
+
+1. Identify all relevant `.razor` files in the requested scope.
+2. For each component, check:
+   - Component size: if > ~300–400 lines, suggest splitting.
+   - Parameter usage: prefer `[Parameter]` with clear names; avoid excessive cascading.
+   - State management: look for patterns that cause unnecessary re-renders.
+   - Code-behind: ensure proper separation if used.
+   - Dependency injection: correct usage in `.razor` vs `.cs`.
+3. Produce a concise report per file with:
+   - 3–5 most important observations
+   - concrete suggestions and example snippets (C#/Razor)
+   - estimated impact (high/medium/low)
+
+## Checklist
+
+- [ ] Component size within reasonable limits
+- [ ] Parameters are explicit and documented
+- [ ] No unnecessary `StateHasChanged()` calls
+- [ ] Proper use of `EventCallback` vs direct events
+- [ ] DI registered correctly and injected cleanly
+
+## Examples
+
+**User request:** “Review the `OrderSummary.razor` component.”  
+**Agent behavior:** Load this skill, analyze `OrderSummary.razor`, produce a bullet list with observations and code snippets.
+
+**User request:** “Check all Blazor components in `src/Client/Components`.”  
+**Agent behavior:** Use `list_files` to find `.razor` files, then apply the same review process to each.
+```
+
+OpenCode автоматически ищет и подключает папки со скиллами. Затем достаточно будет явно указать на необходимость использования конкретного skill-а в запросе, например: `Use the blazor-component-review skill to analyze OrderSummary.razor`
+
+- Делайте skills узкими. Один навык — одна задача: "ревью компонентов", "поиск N+1 запросов в EF Core", "генерация тестов для сервисов". Так проще поддерживать и тестировать
+- Используйте теги и триггеры. Это повышает точность автовыбора навыка
+- Храните skills в репозитории. Папка .opencode/skills должна быть под Git вместе с проектом: это часть "операционной мудрости" вашей команды
+- Тестируйте на реальных файлах. Проверьте, что агент действительно следует чеклисту и не выходит за рамки constraints

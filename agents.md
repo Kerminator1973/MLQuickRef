@@ -271,6 +271,10 @@ This skill is used to review Blazor components (`.razor` and associated `.cs`) f
 **Agent behavior:** Use `list_files` to find `.razor` files, then apply the same review process to each.
 ```
 
+Чтобы проверить, что Skill подключился, в консоли OpenCode следует перейти в панель команд OpenCode (crtl+p), найти раздел Skills и посмотреть, попал ли наш skill в список доступных. К сожалению, OpenCode не всегда подхватывает необходимые данные.
+
+>Scanner skill-ов загружает зависимости в папку ".opencode" проекта ~55 МБ. При практической работе необходимо следить, чтобы эти зависимости не попали в репозитарий проекта.
+
 OpenCode автоматически ищет и подключает папки со скиллами. Затем достаточно будет явно указать на необходимость использования конкретного skill-а в запросе, например: `Use the blazor-component-review skill to analyze \ServicePartners.Client\Components\SanitizedInput.razor`
 
 - Делайте skills узкими. Один навык — одна задача: "review компонентов", "поиск N+1 запросов в EF Core", "генерация тестов для сервисов". Так проще поддерживать и тестировать

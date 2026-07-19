@@ -202,7 +202,7 @@ Skills чаще всего размещается в  корне проекта,
 
 Допустим, делаем навык blazor-component-review для ревью Blazor‑компонентов (учитывая, что вы работаете с C# и Blazor).
 
-Сначала создаётся папка для skill-а: `mkdir -p .opencode/skills/blazor-component-review`
+Сначала создаётся папка для skill-а: `mkdir ".opencode/skills/blazor-component-review"`
 
 Описание skill-а может выглядеть следующим образом:
 
@@ -271,9 +271,9 @@ This skill is used to review Blazor components (`.razor` and associated `.cs`) f
 **Agent behavior:** Use `list_files` to find `.razor` files, then apply the same review process to each.
 ```
 
-OpenCode автоматически ищет и подключает папки со скиллами. Затем достаточно будет явно указать на необходимость использования конкретного skill-а в запросе, например: `Use the blazor-component-review skill to analyze OrderSummary.razor`
+OpenCode автоматически ищет и подключает папки со скиллами. Затем достаточно будет явно указать на необходимость использования конкретного skill-а в запросе, например: `Use the blazor-component-review skill to analyze \ServicePartners.Client\Components\SanitizedInput.razor`
 
-- Делайте skills узкими. Один навык — одна задача: "ревью компонентов", "поиск N+1 запросов в EF Core", "генерация тестов для сервисов". Так проще поддерживать и тестировать
+- Делайте skills узкими. Один навык — одна задача: "review компонентов", "поиск N+1 запросов в EF Core", "генерация тестов для сервисов". Так проще поддерживать и тестировать
 - Используйте теги и триггеры. Это повышает точность автовыбора навыка
 - Храните skills в репозитории. Папка .opencode/skills должна быть под Git вместе с проектом: это часть "операционной мудрости" вашей команды
 - Тестируйте на реальных файлах. Проверьте, что агент действительно следует чеклисту и не выходит за рамки constraints

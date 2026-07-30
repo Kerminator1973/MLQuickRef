@@ -249,6 +249,8 @@ ollama run hf.co/KakTakOne/VibeThinker-3B-GGUF:Q4_K_M
 
 При запуске на GPU RTX 5060 занимает 4 ГБ VRAM.
 
+>Столкнулся с тем, что при использовании OpenCode, VibeThinker не видит skills. Возможно, это есть расхождения в формате передачи skills в VibeThinker. Замечу, что в те же skills прекрасно работают в Gemma 4
+
 ### nvidia‑smi
 
 NVIDIA System Management Interface — утилита командной строки для мониторинга и управления графическими процессорами (GPU) NVIDIA. Она поставляется вместе с драйверами NVIDIA.

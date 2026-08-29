@@ -251,6 +251,26 @@ ollama run hf.co/KakTakOne/VibeThinker-3B-GGUF:Q4_K_M
 
 >Столкнулся с тем, что при использовании OpenCode, VibeThinker не видит skills. Возможно, это есть расхождения в формате передачи skills в VibeThinker. Замечу, что в те же skills прекрасно работают в Gemma 4
 
+## Модели для кодирования DeepSeek
+
+Модель первого поколения, отлично оптимизированная для видео-карт с 8 ГБ VRAM:
+
+```shell
+ollama run deepseek-coder:6.7b
+```
+
+Модель второго поколения со сжатием и ограниченным контекстом:
+
+```shell
+ollama run deepseek-coder-v2:16b-lite-instruct-q3_K_M
+```
+
+Оптимальный вариант для видеокарты с 16 ГБ VRAM - **DeepSeek-Coder-V2:16b**:
+
+```shell
+ollama run deepseek-coder-v2:16b
+```
+
 ### nvidia‑smi
 
 NVIDIA System Management Interface — утилита командной строки для мониторинга и управления графическими процессорами (GPU) NVIDIA. Она поставляется вместе с драйверами NVIDIA.

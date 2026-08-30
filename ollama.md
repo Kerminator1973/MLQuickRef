@@ -249,8 +249,6 @@ ollama run hf.co/KakTakOne/VibeThinker-3B-GGUF:Q4_K_M
 
 При запуске на GPU RTX 5060 занимает 4 ГБ VRAM.
 
->Столкнулся с тем, что при использовании OpenCode, VibeThinker не видит skills. Возможно, это есть расхождения в формате передачи skills в VibeThinker. Замечу, что в те же skills прекрасно работают в Gemma 4
-
 К сожалению, эти локальные модели не работают с OpenCode. Наиболее типовой вариант использования - режим ChatBot-а в Ollama.
 
 ## Модели для кодирования DeepSeek
@@ -260,6 +258,8 @@ ollama run hf.co/KakTakOne/VibeThinker-3B-GGUF:Q4_K_M
 ```shell
 ollama run deepseek-coder:6.7b
 ```
+
+Скорость генерации 10-15 слов в секунду.
 
 Модель второго поколения со сжатием и ограниченным контекстом:
 

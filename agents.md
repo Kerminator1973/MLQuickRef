@@ -197,10 +197,12 @@ opencode upgrade
         "gpt-5.6-terra": { "name": "GPT 5.6 Terra (272/1632 руб)" },
         "gpt-5.6-luna": { "name": "GPT 5.6 LUNA (27/163 руб)" },
         "gpt-5-nano": { "name": "GPT 5.6 Nano (7/54 руб)" },
-        "gemini-3.7-flash": { "name": "Gemini 3.7 Flash (204/1020 руб)" },
+        "gemini-3.8-flash": { "name": "Gemini 3.8 Flash (204/1020 руб)" },
         "deepseek-v4-flash": { "name": "DeepSeek V4 Flash (19/38 руб)" },
         "qwen3.8 MAX": { "name": "QWEN 3.8 MAX (224/673 руб)" },
-        "glm-5.2": { "name": "GLM 5.2 (133/418 руб)" }
+        "glm-5.2": { "name": "GLM 5.2 (133/418 руб)" },
+        "kimi-k3": { "name": "Kimi K3 (408/2040 руб)" },
+        "grok-4.6": { "name": "GROK 4.6 (272/816 руб)" },
       }
     }
   }

@@ -218,6 +218,31 @@ opencode upgrade
 
 Важно сформировать список моделей, которые могут быть использованы при работе с OpenCode.
 
+Содержимое файла "opencode.json" для Zveno.ai:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "zvenoai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "ZvenoAI",
+      "options": {
+        "baseURL": "https://api.zveno.ai/v1",
+        "apiKey": "sk-Jn...9inM"
+      },
+      "models": {
+        "tencent/hy4-preview": { "name": "Tencent hy4 - 160/460 руб" },
+        "z-ai/glm-5.3-flash": { "name": "GLM 5.3 Flash - 14/45 руб" },
+        "qwen/qwen3.8-flash": { "name": "Qwen 3.8 Flash - 28/90 руб" },
+        "meta/muse-spark-1.2-contributor": { "name": "Muse Spark 1.2 - 18/36 руб" },
+        "deepseek/deepseek-v4-pro-0813": { "name": "DeepSeek V4 Pro 0813 - 220/650 руб" }
+      }
+    }
+  }
+}
+```
+
 Анализ кода небольшого проекта с использованием даже дешевых моделей может стоить весьма дорого. Так, например, поиск причины по которой не работало кэширование в web-приложении с Backend API, состоящей из трёх страниц на React, с использованием GPT 5.6 Luna обошлось в 15 рублей. 
 
 Однако стоимость токенов не самый важный фактор - модель может тратить меньшее количество токенов для своей работы, при большей цене токенов. Как результат - общая стоимость работы такой модели может быть ниже, чем у других моделей с более дешевыми токенами.

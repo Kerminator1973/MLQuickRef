@@ -123,15 +123,35 @@ history = model.fit(partial_x_train,
 history_dict = history.history
 #print(history_dict.keys())
 
-# Визуализируем результат используя MatPlotLib
+# Визуализируем результат используя MatPlotLib. Отображаем как график потерь,
+# так и график точности
 import matplotlib.pyplot as plt
+
 loss_values = history_dict['loss']
 val_loss_values = history_dict['val_loss']
+acc_values = history_dict['accuracy']
+val_acc_values = history_dict['val_accuracy']
 epochs = range(1, len(loss_values) + 1)
-plt.plot(epochs, loss_values, "bo", label = "Потери на этапе обучения")
-plt.plot(epochs, val_loss_values, "b", label = "Потери на этапе проверки")
-plt.title("Потери на этапах обучения и проверки")
-plt.xlabel("Эпохи")
-plt.ylabel("Потери")
-plt.legend()
+
+fig, axs = plt.subplots(2, 1, figsize=(8, 8))
+
+# Потери
+axs[0].plot(epochs, loss_values, "bo", label="Обучение")
+axs[0].plot(epochs, val_loss_values, "b", label="Проверка")
+axs[0].set_title("Потери на этапах обучения и проверки")
+axs[0].set_ylabel("Потери")
+axs[0].legend()
+
+# Точность
+axs[1].plot(epochs, acc_values, "go", label="Обучение")
+axs[1].plot(epochs, val_acc_values, "g", label="Проверка")
+axs[1].set_title("Точность на этапах обучения и проверки")
+axs[1].set_xlabel("Эпохи")
+axs[1].set_ylabel("Точность")
+axs[1].legend()
+
+plt.tight_layout()
 plt.show()
+
+# Для решения практических задач используется метод predict()
+#print(model.predict(x_test))

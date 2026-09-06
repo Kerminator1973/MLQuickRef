@@ -51,3 +51,41 @@ decoded_review = ' '.join([reverse_word_index.get(i - 3, '?') for i in train_dat
 
 print(decoded_review)
 ```
+
+## Вопросы производительности ML на специализированном железе
+
+Замечания по запускаемому коду:
+
+```
+I0000 00:00:1788682999.432081   20612 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+```
+
+Это предупреждение означает, что начиная с TensorFlow 2.11 GPU-ускорение на нативном Windows больше не поддерживается. TensorFlow 2.10 был последней версией с GPU на "голом" Windows. Дальше Google направил всех на WSL2 или плагин DirectML.
+
+```shell
+# Внутри WSL2 (Ubuntu)
+sudo apt update && sudo apt upgrade -y
+
+# Установить Python и pip
+sudo apt install python3 python3-pip python3-venv -y
+
+# Создать виртуальное окружение
+python3 -m venv tf-env
+source tf-env/bin/activate
+
+# Установить TensorFlow с поддержкой GPU
+pip install tensorflow[and-cuda]
+```
+
+Проверочный код, который показал, что TensorFlow действительно запустился без аппаратной акселлерации:
+
+```python
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '1'
+
+import tensorflow as tf
+build_info = tf.sysconfig.get_build_info()
+print(build_info)
+```

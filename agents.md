@@ -236,7 +236,8 @@ opencode upgrade
         "z-ai/glm-5.3-flash": { "name": "GLM 5.3 Flash - 14/45 руб" },
         "qwen/qwen3.8-flash": { "name": "Qwen 3.8 Flash - 28/90 руб" },
         "meta/muse-spark-1.2-contributor": { "name": "Muse Spark 1.2 - 18/36 руб" },
-        "deepseek/deepseek-v4-pro-0813": { "name": "DeepSeek V4 Pro 0813 - 220/650 руб" }
+        "deepseek/deepseek-v4-pro-0813": { "name": "DeepSeek V4 Pro 0813 - 220/650 руб" },
+        "minimax/minimax-m2.7:free": {"name": "MiniMax M2.7 - FREE"}
       }
     }
   }
@@ -245,8 +246,9 @@ opencode upgrade
 
 К достоинствам Zveno.ai можно отнести:
 
-- наличие бесплатных моделей
+- наличие бесплатных моделей (подтверждено - доступна, как минимум, MiniMax M3)
 - возможность оплаты сервисов юрлицом
+- российская компания (г. Томск)
 
 Анализ кода небольшого проекта с использованием даже дешевых моделей может стоить весьма дорого. Так, например, поиск причины по которой не работало кэширование в web-приложении с Backend API, состоящей из трёх страниц на React, с использованием GPT 5.6 Luna обошлось в 15 рублей. 
 

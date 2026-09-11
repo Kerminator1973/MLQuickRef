@@ -176,6 +176,10 @@ opencode upgrade
 - Ghostty, Linux и macOS
 - Kitty, Linux и macOS
 
+### "Горячие клавиши" OpenCode
+
+Для перехода на новую строку в редакторе OpenCode следует использовать комбинацию Ctrl+J.
+
 ### Подключение облачных LLM через API
 
 Мы можем подключить облачные LLM к OpenCode через API.

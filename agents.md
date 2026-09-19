@@ -581,3 +581,41 @@ Loop engineering — это подход к проектированию ра�
 Возможно, что наилучшее решение - выделить подобное описание в отдельный Skill, который будет специфичным для конкретного проекта.
 
 Задачи по генерации модульных тестов следует дробить, чтобы минимизировать количество ошибок нейронной сети.
+
+## Выступление Thariq Shaukat по Claude Code и Fable
+
+На сервисе VKVideo выступление называется "Лекция инженера Antropic по Fable".
+
+Claude Code генерирует не готовый ответ, а скрипт, который необходим для решения задачи. По этой причине он точно найдёт двух покемонов, чьё имя заканчивается на "-aw", загрузив список из 1500+ имён и применив к ним сгенерированный скрипт.
+
+При использовании новых моделей следует избегать введения в промптах ограничений вида: "Не делай вот этого...". Модели стали значительно умнее, чем раньше и для реализации их потенциала нужно меньше ограничивать модели в их ответах.
+
+Начиная с Opus 4.5 в модели стало можно попровить ИИ задачть разработчику 40 вопросов в системе... _The model could interview you_. Это позволяет создать более точный контекст для выполнения задачи.
+
+В современных версиях Claude Code можно использовать HTML вместо Markdown, что позволяет значительно лучше визуализировать результат работы системы.
+
+Очень эффективные промпты для того, чтобы "снять ограничения с себя", развить навыки и понимание системы...
+
+### Найти стрёмные места в коде
+
+I'm working on adding a new auth provider but I know nothing about the auth modules in this codebase. Can you do a **blindspot** pass to help me figure out my relevant unknown unknowns and help me to prompt you better.
+
+### Визуальный выбор
+
+Make me an HTML page with 4 wildly different design directions so I can reach to them.
+
+### Разработчик может пройти интервью у модели
+
+Interview me one question at a time about anything ambiguous - prioritize questions where my answer would change the architecture.
+
+### Модель создаёт для себя Reference по коду
+
+Создай спецификацию по коду, а потом используй её для выполнения задачи.
+
+### Заметки о реализации
+
+Keep an implementation-notes.md file. If you hit an edge case that forces you to deviate from the plan, pick the conservative option, log it under 'Deviations', and keep going.
+
+## Quizzes
+
+I want to make sure I understand everything that's happened in this change. Give me a HTML report on the changes for me to read and understand with context, intuition, what was done, etc. and a quiz at the bottom on the changes that I must pass.

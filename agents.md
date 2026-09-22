@@ -282,7 +282,8 @@ opencode upgrade
         "qwen/qwen3.8-flash": { "name": "Qwen 3.8 Flash - 28/90 руб" },
         "meta/muse-spark-1.2-contributor": { "name": "Muse Spark 1.2 - 18/36 руб" },
         "deepseek/deepseek-v4-pro-0813": { "name": "DeepSeek V4 Pro 0813 - 220/650 руб" },
-        "~deepseek/deepseek-v4-flash-latest": { "name": "DeepSeek V4 Flash Latest - 9/17 руб"}
+        "~deepseek/deepseek-v4-flash-latest": { "name": "DeepSeek V4 Flash Latest - 12/44 руб"},
+        "xiaomi/mimo-v2.6-flash": { "name": "MiMo V2.6 Flash - 14/30 руб"}
       }
     }
   }

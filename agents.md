@@ -703,7 +703,7 @@ Keep an implementation-notes.md file. If you hit an edge case that forces you to
 
 I want to make sure I understand everything that's happened in this change. Give me a HTML report on the changes for me to read and understand with context, intuition, what was done, etc. and a quiz at the bottom on the changes that I must pass.
 
-## Как сильно нужно бояться кода, сгенерированного UI
+## Как сильно нужно бояться кода, сгенерированного AI
 
 Чаще всего озвучивается следующая мысль: люди не понимают код, который генерирует LLM и этот код может приносить людям очень много сюрпризов.
 
@@ -721,9 +721,9 @@ I want to make sure I understand everything that's happened in this change. Give
 
 ## Jev
 
-Модель разработана компанией TypeSafe AI я является т.е. decision model.
+Модель разработана компанией TypeSafe AI я является т.е. _decision model_.
 
-Модель получает на входе запрос и возвращает несколько ответы с вероятностью, а также коэффициент уверенности.
+Модель получает на входе запрос и возвращает несколько ответов с вероятностью их правильности, а также **коэффициент уверенности**.
 
 Благодаря коэффициенту уверенности проблема галлюцинаций переводится на пользователя.
 

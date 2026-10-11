@@ -121,6 +121,8 @@ print(df.head())
 
 Для изучения Pandas часто используются блокноты Jupyter. Набор готовых блокнотов от Бориса Пасхавера доступен [здесь](https://github.com/paskhaver/pandas-in-action)
 
+Работать с файлами Jupyter Notebook можно используя plug-ins для Visual Studio Code и OpenIDE/GigaIDE/IntellyJ Idea.
+
 Типовой импорт Pandas:
 
 ```py

@@ -354,6 +354,7 @@ npm install -g @opencode/cli
 
 - [Zveno.ai](https://zveno.ai/docs/cases/opencode)
 - [Speshu.ai](https://speshu.ai/docs/gaidy/opencode)
+- [Polza.ai](https://polza.ai/) - доступ к российским провайдерам (GigaChat, Yandex) - дорого
 
 Важно сформировать список моделей, которые могут быть использованы при работе с OpenCode.
 
@@ -787,4 +788,4 @@ I want to make sure I understand everything that's happened in this change. Give
 - AWS Inferentia / AWS Trainium от Amazon
 - MTIA v1 и MTIA v2 (Artemis)
 
-Очевидно правильное решение, но не в условиях текущей геополитики - размещение дата-центров максимально близко к дешевой атомной энергетике и гидроэлектростанциям, в частности, в некоторых регионах России.
+Очевидно правильное решение, но не в условиях текущей геополитики - размещение дата-центров максимально близко к дешевой атомной энергии и гидроэлектростанциям, в частности, в некоторых регионах России.

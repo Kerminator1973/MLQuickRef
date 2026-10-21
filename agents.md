@@ -610,7 +610,7 @@ OpenCode автоматически ищет и подключает папки 
 
 Пример применения skill-а в OpenCode: `Use the aspnet-nplusone-review skill to analyze ".\ServerPartners\**.cs"`
 
-## Skill "ponytail"
+## Skill "ponytail" (UNDER CONSTRUCTION)
 
 На GitHub есть целый [репозитарий](https://github.com/DietrichGebert/ponytail) посвящённый skill-у ponytail.
 
@@ -623,6 +623,12 @@ Skill описывает поведение языковой модели как
 Как следствие - меньшее количество кода, меньше расход токенов (~1.5 раза), лучшая совместимость с существующим кодом.
 
 Репозитарий активно развивается.
+
+Полноценная установка [описывается в документе](https://github.com/DietrichGebert/ponytail/blob/main/INSTALL.md). В общем случае нужно выполнить команду:
+
+```shell
+opencode plugin add @dietrichgebert/ponytail
+```
 
 ## Запуск Ollama с другого компьютера (UNDER CONSTRUCTION)
 

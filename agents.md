@@ -559,6 +559,18 @@ Then, propose 3–5 concrete architectural improvements that would increase main
 Do not rewrite code yet—focus on architecture and strategy. Return the result as a numbered list with clear headings for each improvement.
 ```
 
+### Ограничение доступа агента к папкам проекта
+
+Примеры явных ограничений доступа агента к папкам проекта:
+
+```
+Read access is permitted only to the following folders: Applications, Common/include, Common/projects, UserInterface, XFS.
+
+Read access is forbidden to all files matching the pattern "jquery*.js".
+
+Read access is forbidden to all files inside the folders: "Applications\Ogre\ssl" and "Applications\Ogre\out-dated".
+```
+
 ### Как лучше использовать эти промпты в OpenCode
 
 - Запускайте после /init, чтобы агент уже проиндексировал файлы

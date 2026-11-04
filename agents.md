@@ -425,6 +425,7 @@ npm install -g @opencode/cli
 
 - [Zveno.ai](https://zveno.ai/docs/cases/opencode)
 - [Speshu.ai](https://speshu.ai/docs/gaidy/opencode)
+- [Router.ai](https://routerai.ru/models) - российское юр.лицо
 - [Polza.ai](https://polza.ai/) - доступ к российским провайдерам (GigaChat, Yandex) - дорого
 
 Важно сформировать список моделей, которые могут быть использованы при работе с OpenCode.

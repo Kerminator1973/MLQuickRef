@@ -52,7 +52,7 @@ Core i3‑13100 подходит для экспериментов с Ollama и 
 
 В качестве альтернативы также можно использовать [Lemonade](https://lemonade-server.ai/).
 
-[llama.cpp](https://github.com/ggml-org/llama.cpp) считается одной из наиболее производительных приложений для запуска inference LLM. Поддерживает не только GPU Nvidia, но и GPU AMD через HIP, а также Moore Threads GPU через MUSA.
+[llama.cpp](https://github.com/ggml-org/llama.cpp) считается одним из наиболее производительных приложений для запуска inference LLM. Поддерживает не только GPU Nvidia, но и GPU AMD через HIP, а также Moore Threads GPU через MUSA.
 
 ### Тарифные планы
 
@@ -97,6 +97,8 @@ ollama --version
 Ollama выполняет модель gemma3:4b вполне шустро, со скоростью чуть медленнее вывода на Duck.io в web, на компьютере с процессором Core i3-13100, без дискретной графики. При этом процессор нагревается до 60+ градусов.
 
 Приложения "ollama app.exe" и "ollama.exe" находятся в папке: `%USERPROFILE%\AppData\Local\Programs\Ollama`
+
+>Рекомендуется использовать модели, загружаемые непосредственно через интерфейс OpenCode - они в наибольшей степени адаптированы для агентского режима работы. Наилучшие кандидаты: gemma3:4b и qwen3.5:4b
 
 На портале Hugging Face можно найти модель в формате GGUF. На странице модели нужно выбрать "Use this model" и "Ollama", а затем получить команду для загрузки в консоли Ollama. Например:
 

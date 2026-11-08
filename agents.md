@@ -433,6 +433,7 @@ npm install -g @opencode/cli
 - [Speshu.ai](https://speshu.ai/docs/gaidy/opencode)
 - [Router.ai](https://routerai.ru/models) - российское юр.лицо
 - [Polza.ai](https://polza.ai/) - доступ к российским провайдерам (GigaChat, Yandex) - дорого
+- [Token Factory](https://selectel.ru/services/token-factory/) о Selectel - дорого, но это российский inference
 
 Важно сформировать список моделей, которые могут быть использованы при работе с OpenCode.
 

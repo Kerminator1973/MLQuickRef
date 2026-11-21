@@ -93,3 +93,76 @@ chmod 600 ~/.secrets/zvenoai-key
 ```shell
 "apiKey": "{file:~/.secrets/zvenoai-key}"
 ```
+
+### Добавление телеметрии 
+
+Типовой способ установки утилиты **opencode-llm-capture** для сохранения телеметрии на диске:
+
+```shell
+git clone https://github.com/aixmoyu/opencode-llm-capture.git /tmp/opencode-llm-capture
+mkdir -p ~/.config/opencode/plugins
+cp /tmp/opencode-llm-capture/llm-capture.ts ~/.config/opencode/plugins/
+rm -rf /tmp/opencode-llm-capture
+```
+
+При первом запуске plugin `~/.config/opencode/plugins/llm-capture.ts` не запустился. 
+
+Посмотреть логи OpenCode можно командой:
+
+```shell
+sudo cat ~/.local/share/opencode/log/opencode.log
+```
+
+Причина сбоя была в том, что код приложения был написан для обеспечения работы с использованием "OpenCode V1 plugin API", а OpenCode версии 2.3.2 использует V2, с другой схемой.
+
+Агент самостоятельно исправил ошибки, plug-in заработал.
+
+Для того, чтобы сбор телеметрии начался, необходимо установить переменную окружения `OPENCODE_LLM_CAPTURE`:
+
+```shell
+export OPENCODE_LLM_CAPTURE=1
+```
+
+Проверка установленных переменных окружения:
+
+```shell
+env
+```
+
+Тестовый запрос для получения телеметрии, на примере работы с кодом проекта **SberXFS4Linux**: 
+
+```
+Analize @source/SBER.XFS3/examples/SIU.DORS.OPI4/HW/siu_adm.cpp
+The code looks like really low-level. How could it be fixed to more concise and simplicity.
+```
+
+
+Логи сохраняются в папку `~/.config/opencode/opencode-llm-capture/llm-dump/`, но по факту, в единственном файле "latest-plugin.json" хранится лишь указание на папку, к которой осуществлялся доступ в последний момент времени:
+
+```shell
+{
+  "timestamp": "2026-11-21T16:21:52.902Z",
+  "directory": "/home/developer/projects/SberXFS4Linux"
+}
+```
+
+Проблема состоит в том, что сервис OpenCode уже запущен и он оперирует ранее доступными переменными окружения. Чтобы актуализировать флаги следует использовать команду:
+
+```shell
+export OPENCODE_LLM_CAPTURE=1
+opencode service stop && opencode service start
+```
+
+Или, что ещё проще, передать переменную окружения напрямую сервису:
+
+```shell
+OPENCODE_LLM_CAPTURE=1 opencode --standalone
+```
+
+Но этого оказалось не достаточно - модель переписала "llm-capture.ts", чтобы обеспечить совместимость с *V2 native HTTP hooks*. После модификации кода, захват dump-ов заработал - дампы начала формироваться в подкаталогах `~/.config/opencode/opencode-llm-capture/llm-dump/`.
+
+### Ключевые выводы
+
+- Чувствительные данные необходимо переносить в секретные внешние папки
+- В переменных окружения следует размещать только настройки режимов работы, но не логины/пароли
+- Инструменты могут выгружать файлы с исходными текстами целиком, но в целом модель стремиться минимизировать объём передаваемых данных, т.к. объём критически влияет на качество работы модели. Контекст стоит дорого, при превышении контекста его приходится упаковывать, что приводит к потере данных и галлюцинациям
